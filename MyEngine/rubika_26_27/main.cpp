@@ -7,6 +7,10 @@
 #include <Logger.h>
 #include <DebugMgr.h>
 
+#include "Entity.h"
+#include "Scene.h"
+#include "SceneMgr.h"
+
 int main()
 {
     gData.Init();
@@ -21,6 +25,8 @@ int main()
 
     sf::Clock clock;
     clock.restart();
+
+    SceneManager.AddAndLoadScene("Debug_Scene");
 
     while (window.isOpen())
     {
@@ -62,6 +68,9 @@ int main()
         PROFILER_EVENT_END();
 
         PROFILER_EVENT_BEGIN(PROFILER_COLOR_GREEN, "Draw");
+
+        SceneManager.UpdateActiveScene(fDeltaTimeS);
+
         window.clear();
 
 #ifdef _USE_IMGUI
@@ -78,6 +87,7 @@ int main()
 
     gData.Shut();
     gData.Destroy();
+    SceneManager.~SceneMgr();
 
     return 0;
 }

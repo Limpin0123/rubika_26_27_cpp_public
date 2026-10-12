@@ -1,4 +1,5 @@
 #include "TransformComponent.h"
+#include "Entity.h"
 
 TransformComponent::TransformComponent()
 {

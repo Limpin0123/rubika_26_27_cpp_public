@@ -1,6 +1,9 @@
 #pragma once
 
 #include <string>
+#include "TransformComponent.h"
+
+#include <SFML/Graphics.hpp>
 
 namespace sf
 {
@@ -13,6 +16,8 @@ public:
 	Entity(std::string friendlyName = "");
 	virtual ~Entity();
 
+	std::string name;
+
 	virtual void Start();
 	virtual void Update(float fDeltaTime);
 	virtual void Destroy();
@@ -22,4 +27,7 @@ public:
 	 * Function that will be called each frame to draw the entity
 	*/
 	void Draw(sf::RenderWindow& window) const;
+
+private:
+	TransformComponent Transform;
 };

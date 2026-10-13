@@ -1,7 +1,11 @@
 #pragma once
 
 #include "Scene.h"
+
+#ifdef _USE_IMGUI
 #include "DebugMgr.h"
+#endif // _USE_IMGUI
+
 
 class SceneMgr : public IDebugable
 {

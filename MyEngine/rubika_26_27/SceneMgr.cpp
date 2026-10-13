@@ -9,12 +9,16 @@
 SceneMgr::SceneMgr()
 {
 	activeScene = nullptr;
+#ifdef _USE_IMGUI
 	gData.DebugMgr->RegisterDebugableWindow("Scene Debugger", this);
+#endif // _USE_IMGUI
 }
 
 SceneMgr::~SceneMgr()
 {
+#ifdef _USE_IMGUI
 	gData.DebugMgr->UnregisterDebugableWindow("Scene Debugger");
+#endif
 	for (auto& scenePair : scenes)
 	{
 		RemoveScene(scenePair.first);

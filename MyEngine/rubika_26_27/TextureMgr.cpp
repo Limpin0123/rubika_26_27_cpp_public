@@ -1,13 +1,26 @@
 #include "TextureMgr.h"
 #include "Logger.h"
 
+#ifdef _USE_IMGUI
+//#include <filesystem>
+#include "Globals.h"
+#include <Imgui/imgui.h>
+#include <Imgui/imgui-SFML.h>
+#endif
+
 #pragma region TextureData
 TextureData::TextureData()
 {
+	
 }
 
 TextureData::~TextureData()
 {
+}
+
+bool TextureData::isAnimatedData()
+{
+	return animatedTextures.size() > 0;
 }
 
 #pragma endregion
@@ -16,11 +29,34 @@ TextureData::~TextureData()
 #pragma region TextureMgr
 void TextureMgr::Init()
 {
+	sf::Texture  tex(sf::Vector2u(16,16));
+	std::vector<std::uint8_t> pixels(1024, 255);//1024 => 16*16*4
+	tex.update(pixels.data());
+
+	TextureData defaultTex = TextureData();
+	defaultTex.Texture = tex;
+	auto it = defaultTex.staticTextures.emplace("default", StaticTileData());
+	StaticTileData& std = it.first->second;
+	std.StartX = 0;
+	std.StartY = 0;
+	std.SizeX = 16;
+	std.SizeY = 16;
+	std.IsRevertedX = false;
+	std.IsRevertedY = false;
+
+	loadedTextures.emplace(DEFAULT_TEXTURE_NAME, defaultTex);
+
+
+#ifdef _USE_IMGUI
+	gData.DebugMgr->RegisterDebugableWindow("Texture Debugger", this);
+#endif // _USE_ImGUI
 
 }
 void TextureMgr::Shut()
 {
-
+#ifdef _USE_IMGUI
+	gData.DebugMgr->UnregisterDebugableWindow("Texture Debugger");
+#endif // _USE_ImGUI
 }
 
 /*
@@ -53,8 +89,122 @@ bool TextureMgr::LoadTexture(const std::filesystem::path& imagePath)
 const TextureData& TextureMgr::GetTextureData(const std::string& name) const
 {
 	if (!loadedTextures.contains(name))
-		return TextureData();
+		return loadedTextures.at(DEFAULT_TEXTURE_NAME);
 	return loadedTextures.at(name);
+}
+
+void TextureMgr::DrawDebug()
+{
+#ifdef _USE_IMGUI
+	if (inspectedTexture.empty())
+	{
+		static char newTextureName[128] = "";
+		if (ImGui::Button("Load new Texture"))
+		{
+			std::string fileName(newTextureName);
+
+			if (!fileName.empty())
+			{
+				std::filesystem::path fullPath = std::filesystem::current_path().parent_path() / TEXTURE_FOLDER / fileName;
+				LoadTexture(fullPath.string());
+			}
+		}
+		if(ImGui::InputText("##InputText", newTextureName, IM_ARRAYSIZE(newTextureName)))
+		{}
+
+		if (ImGui::BeginTable("Textures", 2, ImGuiTableFlags_Resizable | ImGuiTableFlags_NoSavedSettings | ImGuiTableFlags_Borders))
+		{
+			ImGui::TableSetupColumn("Texture name");
+			ImGui::TableHeadersRow();
+			ImGui::TableNextRow();
+
+			for (std::pair<std::string, TextureData> texPair : loadedTextures)
+			{
+				ImGui::TableSetColumnIndex(0);
+				ImGui::Text(texPair.first.c_str());
+
+				ImGui::TableSetColumnIndex(1);
+				if (ImGui::Button(("Inspect##" + texPair.first).c_str()))
+				{
+					inspectedTexture = texPair.first;
+					ImGui::EndTable();
+					return;
+				}
+
+				ImGui::TableNextRow();
+			}
+		}
+		ImGui::EndTable();
+	}
+	else
+	{
+		if (ImGui::Button("Back"))
+		{
+			inspectedTexture.clear();
+			return;
+		}
+		TextureData& tex = loadedTextures.at(inspectedTexture);
+		ImVec4 titleColor = ImVec4(1,0,0,1);
+		ImVec4 subTitleColor = ImVec4(0, 0, 1, 1);
+
+		if (tex.isAnimatedData())
+		{
+			ImGui::TextColored(titleColor, "Animations");
+			ImGui::NewLine();
+			for (std::pair<std::string, AnimationData> adPair : tex.animatedTextures)
+			{
+				AnimationData& ad = adPair.second;
+				
+				ImGui::PushStyleColor(ImGuiCol_Text, subTitleColor);
+				bool isOpen = ImGui::TreeNode(adPair.first.c_str());
+				ImGui::PopStyleColor();
+
+				if (isOpen)
+				{
+					ImGui::Text("Size {%d,%d} {%d,%d}", ad.StartX, ad.StartY, ad.SizeX, ad.SizeY);
+					ImGui::Text("Offset {%d,%d}", ad.OffsetX, ad.OffsetY);
+					ImGui::Text("Sprites: %d", ad.SpriteOnLine);
+					ImGui::Text("Reverted: %s", ad.IsReverted ? "true" : "false");
+					ImGui::Text("Sprite Delay: %f", ad.TimeBetweenAnimationInS);
+
+					ImGui::TreePop();
+				}
+
+			}
+		}
+		else
+		{
+			ImGui::TextColored(titleColor, "Background");
+			ImGui::NewLine();
+			for (std::pair<std::string, StaticTileData> stdPair : tex.staticTextures)
+			{
+				StaticTileData& std = stdPair.second;
+
+				ImGui::PushStyleColor(ImGuiCol_Text, subTitleColor);
+
+				bool isOpen = ImGui::TreeNode(stdPair.first.c_str());
+				ImGui::PopStyleColor();
+
+				if (isOpen)
+				{
+					ImGui::Text("Size {%d,%d} {%d,%d}", std.StartX, std.StartY, std.SizeX, std.SizeY);
+					ImGui::Text("Reverted X: %s  || Reverted Y: %s", std.IsRevertedX ? "true" : "false", std.IsRevertedY ? "true" : "false");
+
+					ImGui::TreePop();
+				}
+			}
+		}
+
+		ImGui::NewLine();
+
+		sf::Vector2 texSize(tex.Texture.getSize());
+		ImVec2 freeSpace = ImGui::GetContentRegionAvail();
+		float scale = texSize.x > freeSpace.x ? freeSpace.x / texSize.x : 1;
+		sf::Vector2 size(texSize.x * scale, texSize.y * scale);
+
+		ImGui::Image(tex.Texture, size);
+	}
+#endif // _USE_IMGUI
 }
 
 bool TextureMgr::DoFilesExists(const std::filesystem::path& imagePath, const std::filesystem::path& metaDataPath)
@@ -75,9 +225,9 @@ bool TextureMgr::LoadTextureData(rapidxml::xml_document<>& doc, const std::files
 {
 	rapidxml::xml_node<>* rootNode = doc.first_node();
 		
-	if (strcmp(rootNode->name(), "Animations") != 0 && strcmp(rootNode->name(), "Background") != 0)
+	if (strcmp(rootNode->name(), "Animations") != 0 && strcmp(rootNode->name(), "Backgrounds") != 0)
 	{
-		Logger::Error("The XML file isn't of 'Animations' type nor 'Background'");
+		Logger::Error("The XML file isn't of 'Animations' type nor 'Backgrounds'");
 		return false;
 	}
 	rapidxml::xml_node<>* currentNode = rootNode->first_node();
@@ -97,7 +247,7 @@ bool TextureMgr::LoadTextureData(rapidxml::xml_document<>& doc, const std::files
 		}
 		else
 		{
-			auto it = newTextureData.textures.emplace(currentNode->first_attribute()->value(), StaticTileData());
+			auto it = newTextureData.staticTextures.emplace(currentNode->first_attribute()->value(), StaticTileData());
 			StaticTileData& std = it.first->second;
 			LoadSTD(std, currentNode->first_node());
 		}
@@ -248,4 +398,3 @@ bool TextureMgr::LoadBoolAndNext(bool& b, rapidxml::xml_node<>*& node, const cha
 	return true;
 }
 #pragma endregion
-

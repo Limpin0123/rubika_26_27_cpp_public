@@ -9,6 +9,13 @@
 #include <rapidxml/rapidxml.hpp>
 #include <rapidxml/rapidxml_utils.hpp>
 
+#ifdef _USE_IMGUI
+#include "DebugMgr.h"
+#endif // _USE_IMGUI
+
+#define DEFAULT_TEXTURE_NAME "DefaultTexture"
+#define TEXTURE_FOLDER "Ressources"
+
 struct AnimationData
 {
 	int StartX = 0;
@@ -40,15 +47,17 @@ struct TextureData
 
 	sf::Texture Texture;
 
+	bool isAnimatedData();
+
 	// Container of AnimationData AnimationsData;
 	std::unordered_map<std::string, AnimationData> animatedTextures;
 	// Container of StaticTileData StaticTilesData;
-	std::unordered_map<std::string, StaticTileData> textures;
+	std::unordered_map<std::string, StaticTileData> staticTextures;
 
 	friend class TextureMgr;
 };
 
-class TextureMgr final
+class TextureMgr final : public IDebugable
 {
 public:
 	void Init();
@@ -67,7 +76,13 @@ public:
 	 */
 	const TextureData& GetTextureData(const std::string& name) const;
 
+	virtual void DrawDebug() override;
+
 private:
+#ifdef _USE_IMGUI
+	std::string inspectedTexture;
+#endif // _USE_IMGUI
+
 	std::unordered_map<std::string, TextureData> loadedTextures;
 
 	bool DoFilesExists(const std::filesystem::path& imagePath, const std::filesystem::path& metaDataPath);

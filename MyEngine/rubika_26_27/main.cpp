@@ -25,7 +25,7 @@ int main()
     clock.restart();
 
     gData.SceneManager->AddAndLoadScene("Debug_Scene");
-    gData.TextureManager->LoadTexture("C:\\Github\\rubika_26_27_cpp_public\\MyEngine\\Ressources\\enemy_texture_1.png");
+    gData.TextureManager->LoadTexture("C:\\Github\\rubika_26_27_cpp_public\\MyEngine\\Ressources\\Basement.png");
 
     while (window.isOpen())
     {

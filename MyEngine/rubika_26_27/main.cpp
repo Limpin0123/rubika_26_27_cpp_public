@@ -6,6 +6,7 @@
 #include <Profiler.h>
 #include <Logger.h>
 #include <DebugMgr.h>
+#include <TextureMgr.h>
 
 #include "Entity.h"
 #include "Scene.h"
@@ -19,14 +20,12 @@ int main()
 
     ImGui::SFML::Init(window);
 
-    Logger::Info("This is an info message. That is useful");
-    Logger::Warning("This is a warning message. Should I worry?");
-    Logger::Error("This is an error message. Oh sh*t!!");
 
     sf::Clock clock;
     clock.restart();
 
-    SceneManager.AddAndLoadScene("Debug_Scene");
+    gData.SceneManager->AddAndLoadScene("Debug_Scene");
+    gData.TextureManager->LoadTexture("C:\\Github\\rubika_26_27_cpp_public\\MyEngine\\Ressources\\enemy_texture_1.png");
 
     while (window.isOpen())
     {
@@ -69,7 +68,7 @@ int main()
 
         PROFILER_EVENT_BEGIN(PROFILER_COLOR_GREEN, "Draw");
 
-        SceneManager.UpdateActiveScene(fDeltaTimeS);
+        gData.SceneManager->UpdateActiveScene(fDeltaTimeS);
 
         window.clear();
 
@@ -87,7 +86,6 @@ int main()
 
     gData.Shut();
     gData.Destroy();
-    SceneManager.~SceneMgr();
 
     return 0;
 }

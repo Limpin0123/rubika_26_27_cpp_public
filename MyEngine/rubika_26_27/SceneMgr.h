@@ -28,5 +28,3 @@ private:
 	Scene* inspectedScene;
 #endif
 };
-
-extern SceneMgr SceneManager;

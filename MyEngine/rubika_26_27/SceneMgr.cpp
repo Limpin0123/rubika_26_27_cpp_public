@@ -6,8 +6,6 @@
 	#include <Imgui/imgui.h>
 #endif
 
-SceneMgr SceneManager;
-
 SceneMgr::SceneMgr()
 {
 	activeScene = nullptr;

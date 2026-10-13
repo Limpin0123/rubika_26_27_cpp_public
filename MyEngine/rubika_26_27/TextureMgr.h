@@ -4,6 +4,10 @@
 
 #include <filesystem>
 #include <string>
+#include <unordered_map>
+
+#include <rapidxml/rapidxml.hpp>
+#include <rapidxml/rapidxml_utils.hpp>
 
 struct AnimationData
 {
@@ -35,8 +39,11 @@ struct TextureData
 	~TextureData();
 
 	sf::Texture Texture;
+
 	// Container of AnimationData AnimationsData;
+	std::unordered_map<std::string, AnimationData> animatedTextures;
 	// Container of StaticTileData StaticTilesData;
+	std::unordered_map<std::string, StaticTileData> textures;
 
 	friend class TextureMgr;
 };
@@ -53,10 +60,24 @@ public:
 	 * If errors occur during the loading process, this function must return false.
 	 * Return true otherwise.
 	*/
-	bool LoadTexture(const std::filesystem::path& path);
+	bool LoadTexture(const std::filesystem::path& imagePath);
 
 	/*
 	 * Returns the corresponding TextureData using the name of the texture. Returns the default TextureData in case of an unknown name
 	 */
 	const TextureData& GetTextureData(const std::string& name) const;
+
+private:
+	std::unordered_map<std::string, TextureData> loadedTextures;
+
+	bool DoFilesExists(const std::filesystem::path& imagePath, const std::filesystem::path& metaDataPath);
+
+	bool LoadTextureData(rapidxml::xml_document<>& doc, const std::filesystem::path& imagePath);
+	
+	void LoadAD(AnimationData& ad, rapidxml::xml_node<>* node);
+	void LoadSTD(StaticTileData& std, rapidxml::xml_node<>* node);
+
+	bool LoadIntAndNext(int& i, rapidxml::xml_node<>*& node, const char* parameterName);
+	bool LoadFloatAndNext(float& f, rapidxml::xml_node<>*& node, const char* parameterName);
+	bool LoadBoolAndNext(bool& b, rapidxml::xml_node<>*& node, const char* parameterName);
 };

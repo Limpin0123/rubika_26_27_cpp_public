@@ -12,6 +12,10 @@
 #include "Scene.h"
 #include "SceneMgr.h"
 
+#include "TransformComponent.h"
+#include "RenderComponent.h"
+#include "StaticDrawable.h"
+
 int main()
 {
     gData.Init();
@@ -24,8 +28,15 @@ int main()
     sf::Clock clock;
     clock.restart();
 
+    /*### DEBUG AND TESTING ###*/
     gData.SceneManager->AddAndLoadScene("Debug_Scene");
     gData.TextureManager->LoadTexture("C:\\Github\\rubika_26_27_cpp_public\\MyEngine\\Ressources\\Basement.png");
+
+    Entity& entity = gData.SceneManager->activeScene->AddEntity("Test_Entity");
+    entity.AddComponent<TransformComponent>();
+    RenderComponent* rc = entity.AddComponent<RenderComponent>();
+    rc->AddDrawable<StaticDrawable>();
+    /*### ###*/
 
     while (window.isOpen())
     {

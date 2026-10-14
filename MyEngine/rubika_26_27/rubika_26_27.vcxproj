@@ -214,6 +214,7 @@
     <ClCompile Include="Globals.cpp" />
     <ClCompile Include="IComponent.cpp" />
     <ClCompile Include="IDrawable.cpp" />
+    <ClCompile Include="IDrawableComponent.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="RenderComponent.cpp" />
@@ -244,12 +245,15 @@
     <ClInclude Include="AnimatedDrawable.h" />
     <ClInclude Include="DebugMgr.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="Entity.hxx" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="IComponent.h" />
     <ClInclude Include="IDrawable.h" />
+    <ClInclude Include="IDrawableComponent.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="Profiler.h" />
     <ClInclude Include="RenderComponent.h" />
+    <ClInclude Include="RenderComponent.hxx" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneMgr.h" />
     <ClInclude Include="StaticDrawable.h" />

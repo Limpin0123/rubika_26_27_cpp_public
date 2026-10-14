@@ -1,11 +1,12 @@
 #pragma once
 
 #include "IComponent.h"
+#include "IDrawableComponent.h"
 #include <SFML/Graphics/RenderWindow.hpp>
 
 class IDrawable;
 
-class RenderComponent : public IComponent
+class RenderComponent : public IComponent, public IDrawableComponent
 {
 
 public:
@@ -14,13 +15,17 @@ public:
 	RenderComponent(Entity& entity);
 	~RenderComponent();
 
-	void Draw(sf::RenderWindow& window) const;
+	template<typename T>
+	T* AddDrawable();
+
+	void Draw(sf::RenderWindow& window) const override;
 
 	void Start() override;
 	void Update(float fDelatTime) override;
 	void Destroy() override;
 
 private:
-	IDrawable* Visual;
+	std::vector<IDrawable*> drawables;
 };
 
+#include "RenderComponent.hxx"

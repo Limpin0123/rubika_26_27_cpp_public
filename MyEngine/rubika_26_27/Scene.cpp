@@ -1,4 +1,5 @@
 #include "Scene.h"
+#include "TransformComponent.h"
 
 Scene::Scene(const std::string& name)
 {

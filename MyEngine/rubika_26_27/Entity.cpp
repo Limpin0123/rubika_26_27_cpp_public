@@ -1,10 +1,13 @@
 #include "Entity.h"
 
-#include "Logger.h"
+#include "IComponent.h"
+#include "TransformComponent.h"
+#include "RenderComponent.h"
+
 #include "Scene.h"
 
 
-Entity::Entity(std::string friendlyName) : Transform(*this), Render(*this)
+Entity::Entity(std::string friendlyName)
 {
 	name = friendlyName;
 }
@@ -16,21 +19,35 @@ Entity::~Entity()
 
 void Entity::Start()
 {
-	Render.Start();
-	Transform.Start();
+	for (IComponent* component : Components)
+	{
+		component->Start();
+	}
 }
 void Entity::Update(float fDeltaTime)
 {
-	Render.Update(fDeltaTime);
-	Transform.Update(fDeltaTime);
+	for (IComponent* component : Components)
+	{
+		component->Update(fDeltaTime);
+	}
 }
 void Entity::Destroy()
 {
-	Render.Destroy();
-	Transform.Destroy();
+	for (IComponent* component : Components)
+	{
+		component->Destroy();
+	}
 }
 
 void Entity::Draw(sf::RenderWindow& window) const
 {
-	Render.Draw(window);
+	for (IDrawableComponent* dc : DrawableComponents)
+	{
+		dc->Draw(window);
+	}
+	/*RenderComponent* rc = GetComponent<RenderComponent>();
+	if (rc != nullptr)
+	{
+		rc->Draw(window);
+	}*/
 }

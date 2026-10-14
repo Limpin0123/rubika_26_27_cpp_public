@@ -4,7 +4,7 @@
 
 RenderComponent::RenderComponent(Entity& entity) : IComponent(entity)
 {
-	Visual = new StaticDrawable();
+	//Visual = new StaticDrawable();
 }
 
 RenderComponent::~RenderComponent()
@@ -12,23 +12,32 @@ RenderComponent::~RenderComponent()
 
 void RenderComponent::Draw(sf::RenderWindow& window) const
 {
-	Visual->Draw(window);
+	for (IDrawable* drawable : drawables)
+	{
+		drawable->Draw(window);
+	}
 }
 
 void RenderComponent::Start()
 {
-	Visual->Start();
+	//Visual->Start();
 
-	Visual->SetWorldTransform(sf::Transform());
-	Visual->SetVisibility(true);
+	//Visual->SetWorldTransform(sf::Transform());
+	//Visual->SetVisibility(true);
 }
 
 void RenderComponent::Update(float fDelatTime)
 {
-	Visual->Update(fDelatTime);
+	for (IDrawable* drawable : drawables)
+	{
+		drawable->Update(fDelatTime);
+	}
 }
 
 void RenderComponent::Destroy()
 {
-	Visual->Destroy();
+	for (IDrawable* drawable : drawables)
+	{
+		drawable->Destroy();
+	}
 }

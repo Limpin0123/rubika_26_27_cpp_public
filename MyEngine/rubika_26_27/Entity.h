@@ -1,10 +1,11 @@
 #pragma once
-
 #include <string>
-#include "TransformComponent.h"
-#include "RenderComponent.h"
-
+#include "IDrawableComponent.h"
 #include <SFML/Graphics.hpp>
+
+class IComponent;
+class TransformComponent;
+class RenderComponent;
 
 namespace sf
 {
@@ -23,6 +24,11 @@ public:
 	virtual void Update(float fDeltaTime);
 	virtual void Destroy();
 
+	template <typename T>
+	T* AddComponent();
+	template <typename T>
+	T* GetComponent() const;
+
 	/*
 	 * This function will be removed later, when the rendering system will be more robust. But for now, we need it here.
 	 * Function that will be called each frame to draw the entity
@@ -30,6 +36,8 @@ public:
 	void Draw(sf::RenderWindow& window) const;
 
 private:
-	TransformComponent Transform;
-	RenderComponent Render;
+	std::vector<IComponent*> Components;
+	std::vector<IDrawableComponent*> DrawableComponents;
 };
+
+#include "Entity.hxx"

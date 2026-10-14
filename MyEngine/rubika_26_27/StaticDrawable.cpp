@@ -6,12 +6,10 @@
 #include <SFML/Graphics/RectangleShape.hpp>
 
 StaticDrawable::StaticDrawable()
-{
-}
+{}
 
 StaticDrawable::~StaticDrawable()
-{
-}
+{}
 
 void StaticDrawable::Start()
 {

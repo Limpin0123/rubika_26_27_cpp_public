@@ -4,6 +4,7 @@
 #include <vector>
 #include "Entity.h"
 
+
 namespace sf
 {
 	class RenderWindow;

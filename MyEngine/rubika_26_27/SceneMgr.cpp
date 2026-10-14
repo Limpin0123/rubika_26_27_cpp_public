@@ -68,6 +68,13 @@ void SceneMgr::LoadScene(std::string sceneName)
 	activeScene = &it->second;
 }
 
+void SceneMgr::DrawActiveScene(sf::RenderWindow& window) const
+{
+	if (activeScene == nullptr)
+		return;
+	activeScene->Draw(window);
+}
+
 void SceneMgr::UpdateActiveScene(float fDeltaTime)
 {
 	if (activeScene == nullptr)
@@ -158,8 +165,9 @@ void SceneMgr::DrawDebug()
 			ImGui::TableNextRow();
 
 			int BtnId = 0;
-			for (Entity& entity : inspectedScene->GetEntities()) {
-				
+			for (Entity* pEntity : inspectedScene->GetEntities()) {
+				Entity& entity = *pEntity;
+
 				ImGui::TableSetColumnIndex(0);
 				ImGui::Text(entity.name.c_str());
 

@@ -2,6 +2,7 @@
 
 #include <string>
 #include "TransformComponent.h"
+#include "RenderComponent.h"
 
 #include <SFML/Graphics.hpp>
 
@@ -30,4 +31,5 @@ public:
 
 private:
 	TransformComponent Transform;
+	RenderComponent Render;
 };

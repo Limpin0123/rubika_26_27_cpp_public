@@ -31,10 +31,10 @@ public:
 	void Draw(sf::RenderWindow& window) const;
 
 	int GetEntityAmount();
-	std::vector<Entity>& GetEntities();
+	std::vector<Entity*>& GetEntities();
 
 private:
-	std::vector<Entity> Entities;
+	std::vector<Entity*> Entities;
 	
 	void DestroyAllEntities();
 };

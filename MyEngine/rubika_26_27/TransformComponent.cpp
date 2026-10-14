@@ -1,7 +1,7 @@
 #include "TransformComponent.h"
 #include "Entity.h"
 
-TransformComponent::TransformComponent()
+TransformComponent::TransformComponent(Entity& entity) : IComponent(entity)
 {
 	WorldPosition = sf::Vector2f();
 	WorldPositionQuery = sf::Vector2f();
@@ -63,6 +63,8 @@ sf::Vector2f TransformComponent::GetScale() const
 {
 	return Scale;
 }
+
+
 
 void TransformComponent::Start()
 {}

@@ -71,7 +71,7 @@ int main()
         gData.SceneManager->UpdateActiveScene(fDeltaTimeS);
 
         window.clear();
-
+        gData.SceneManager->DrawActiveScene(window);
 #ifdef _USE_IMGUI
         ImGui::SFML::Render(window);
 #endif

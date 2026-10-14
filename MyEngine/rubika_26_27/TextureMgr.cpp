@@ -89,7 +89,10 @@ bool TextureMgr::LoadTexture(const std::filesystem::path& imagePath)
 const TextureData& TextureMgr::GetTextureData(const std::string& name) const
 {
 	if (!loadedTextures.contains(name))
+	{
+		Logger::Warning("Couldn't load texture: " + name);
 		return loadedTextures.at(DEFAULT_TEXTURE_NAME);
+	}
 	return loadedTextures.at(name);
 }
 

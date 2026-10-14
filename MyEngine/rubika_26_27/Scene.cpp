@@ -11,16 +11,16 @@ Scene::~Scene()
 
 void Scene::Start()
 {
-	for (Entity entity : Entities)
+	for (Entity* entity : Entities)
 	{
-		entity.Start();
+		entity->Start();
 	}
 }
 void Scene::Update(float fDeltaTime)
 {
-	for (Entity entity : Entities)
+	for (Entity* entity : Entities)
 	{
-		entity.Update(fDeltaTime);
+		entity->Update(fDeltaTime);
 	}
 }
 void Scene::Destroy()
@@ -30,28 +30,38 @@ void Scene::Destroy()
 
 Entity& Scene::AddEntity(std::string entityName)
 {
-	Entities.push_back(Entity(entityName));
-	Entities[Entities.size() - 1].Start();
+	Entities.push_back(new Entity(entityName));
+	Entities[Entities.size() - 1]->Start();
 
-	return Entities[Entities.size()-1];
+	return *Entities[Entities.size()-1];
 }
 
 void Scene::RemoveEntity(Entity* entityptr)
 {
 	for (int i = 0; i < Entities.size(); i++)
 	{
-		if (&Entities[i] == entityptr) 
+		if (Entities[i] == entityptr) 
 		{
-			Entities[i].Destroy();
+			entityptr->Destroy();
+			delete entityptr;
 			Entities.erase(Entities.begin() + i);
 		}
 	}
 }
+
+void Scene::Draw(sf::RenderWindow& window) const
+{
+	for (Entity* entity : Entities)
+	{
+		entity->Draw(window);
+	}
+}
+
 void Scene::DestroyAllEntities()
 {
-	for (Entity& entity : Entities)
+	for (Entity* entity : Entities)
 	{
-		RemoveEntity(&entity);
+		RemoveEntity(entity);
 	}
 }
 
@@ -59,7 +69,7 @@ int Scene::GetEntityAmount()
 {
 	return Entities.size();
 }
-std::vector<Entity>& Scene::GetEntities()
+std::vector<Entity*>& Scene::GetEntities()
 {
 	return Entities;
 }

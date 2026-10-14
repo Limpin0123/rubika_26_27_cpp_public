@@ -21,6 +21,8 @@ public:
 
 	void LoadScene(std::string sceneName);
 
+	void DrawActiveScene(sf::RenderWindow& window) const;
+
 	void UpdateActiveScene(float fDeltaTime);
 
 	virtual void DrawDebug() override;

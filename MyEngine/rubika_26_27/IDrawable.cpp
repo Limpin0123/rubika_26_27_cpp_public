@@ -37,4 +37,5 @@ void IDrawable::Draw(sf::RenderWindow& window) const
 	states.transform = WorldTransform;
 
 	window.draw(*Drawable, states);
+	//window.draw(*Drawable);
 }

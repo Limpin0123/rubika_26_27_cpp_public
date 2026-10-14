@@ -4,10 +4,9 @@
 #include "Scene.h"
 
 
-Entity::Entity(std::string friendlyName)
+Entity::Entity(std::string friendlyName) : Transform(*this), Render(*this)
 {
 	name = friendlyName;
-	Transform = TransformComponent();
 }
 
 Entity::~Entity()
@@ -17,18 +16,21 @@ Entity::~Entity()
 
 void Entity::Start()
 {
-	Logger::Info("Entity: " + name + " Started !");
+	Render.Start();
+	Transform.Start();
 }
 void Entity::Update(float fDeltaTime)
 {
-	
+	Render.Update(fDeltaTime);
+	Transform.Update(fDeltaTime);
 }
 void Entity::Destroy()
 {
-
+	Render.Destroy();
+	Transform.Destroy();
 }
 
 void Entity::Draw(sf::RenderWindow& window) const
 {
-	Logger::Info("Entity is Being Drawn");
+	Render.Draw(window);
 }

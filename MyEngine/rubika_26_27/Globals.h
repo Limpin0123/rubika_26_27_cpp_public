@@ -7,6 +7,14 @@ class Logger;
 class SceneMgr;
 class TextureMgr;
 
+enum AnimationRevertType
+{
+	RevertAnimation,
+	RevertX,
+	RevertY,
+	RevertXY
+};
+
 class Globals
 {
 public:

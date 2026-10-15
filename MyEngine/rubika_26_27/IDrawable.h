@@ -19,12 +19,15 @@ public:
 
 	const sf::Transform& GetWorldTransform() const;
 	void SetWorldTransform(const sf::Transform& transform);
+	const sf::Transform& GetLocalTransform() const;
+	void SetLocalTransform(const sf::Transform& transform);
 
 	void Draw(sf::RenderWindow& window) const;
 	virtual void DrawDebug();
 
 protected:
 	bool Visible;
+	sf::Transform LocalTransform;
 	sf::Transform WorldTransform;
 	sf::Drawable* Drawable; // Pointer to the SFML derived class defined in IDrawable's derived class
 };

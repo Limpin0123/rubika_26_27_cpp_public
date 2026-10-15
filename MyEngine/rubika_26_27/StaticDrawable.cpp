@@ -21,9 +21,7 @@ void StaticDrawable::Start()
 {
 	rec = sf::RectangleShape();
 	rec.setFillColor(sf::Color(color[0] * 255, color[1] * 255, color[2] * 255, color[3] * 255));
-	rec.setSize(sf::Vector2f(500, 500));
-	rec.setPosition(sf::Vector2f(10, 10));
-	rec.setTexture(&gData.TextureManager->GetTextureData(DEFAULT_TEXTURE_NAME).Texture);
+	rec.setSize(sf::Vector2f(100, 100));
 
 	Drawable = &rec;
 }
@@ -35,6 +33,7 @@ void StaticDrawable::Update(float deltaTime)
 
 void StaticDrawable::Destroy()
 {
+	delete textureData;
 }
 
 void StaticDrawable::DrawDebug()
@@ -65,8 +64,7 @@ bool StaticDrawable::SetTexture(const std::string& textureName)
 		Logger::Warning("Couldn't load Texture");
 		return false;
 	}
-	sf::RectangleShape* rs = dynamic_cast<sf::RectangleShape*>(Drawable);
-	rs->setTexture(&textureData->Texture);
+	rec.setTexture(&textureData->Texture);
 
 	return true;
 }
@@ -79,9 +77,8 @@ bool StaticDrawable::SetStaticTile(const std::string& staticTileName)
 		Logger::Warning("Couldn't load staticTileData from texture");
 		return false;
 	}
-	sf::RectangleShape* rs = dynamic_cast<sf::RectangleShape*>(Drawable);
 
-	rs->setTextureRect(
+	rec.setTextureRect(
 		sf::IntRect(
 			sf::Vector2i(
 				std->IsRevertedX ? std->StartX + std->SizeX : std->StartX,
@@ -93,7 +90,7 @@ bool StaticDrawable::SetStaticTile(const std::string& staticTileName)
 	return true;
 }
 
-bool StaticDrawable::SetTexturesAndStaticTile(const std::string& textureName, const std::string& staticTileName)
+bool StaticDrawable::SetTextureAndStaticTile(const std::string& textureName, const std::string& staticTileName)
 {
 	return SetTexture(textureName) && SetStaticTile(staticTileName);
 }

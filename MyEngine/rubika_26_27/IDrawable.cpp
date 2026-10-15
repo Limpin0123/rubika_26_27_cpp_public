@@ -31,6 +31,16 @@ void IDrawable::SetWorldTransform(const sf::Transform& transform)
 	WorldTransform = transform;
 }
 
+const sf::Transform& IDrawable::GetLocalTransform() const
+{
+	return LocalTransform;
+}
+
+void IDrawable::SetLocalTransform(const sf::Transform& transform)
+{
+	LocalTransform = transform;
+}
+
 void IDrawable::Draw(sf::RenderWindow& window) const
 {
 	if (!Drawable || !Visible)

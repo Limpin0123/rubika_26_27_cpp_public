@@ -4,7 +4,6 @@
 #include <SFML/Graphics/RectangleShape.hpp>
 
 struct TextureData;
-struct StaticTileData;
 
 class StaticDrawable : public IDrawable
 {
@@ -20,7 +19,7 @@ public:
 
 	bool SetTexture(const std::string& textureName);
 	bool SetStaticTile(const std::string& staticTileName);
-	bool SetTexturesAndStaticTile(const std::string& textureName, const std::string& staticTileName);
+	bool SetTextureAndStaticTile(const std::string& textureName, const std::string& staticTileName);
 
 private:
 	sf::RectangleShape rec;

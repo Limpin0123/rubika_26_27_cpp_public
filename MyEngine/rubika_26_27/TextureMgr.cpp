@@ -284,53 +284,43 @@ void  TextureMgr::LoadAD(AnimationData& ad, rapidxml::xml_node<>* node)
 {
 	if (!LoadIntAndNext(ad.StartX, node, "X"))
 	{
-		Logger::Error("Exeption at StartX");
-		return;
+		Logger::Warning("Exeption at StartX");
 	}
 	if(!LoadIntAndNext(ad.StartY, node, "Y"))
 	{
-		Logger::Error("Exeption at StartY");
-		return;
+		Logger::Warning("Exeption at StartY");
 	}
 	if (!LoadIntAndNext(ad.SizeX, node, "SizeX"))
 	{
-		Logger::Error("Exeption at SizeX");
-		return;
+		Logger::Warning("Exeption at SizeX");
 	}
 	if(!LoadIntAndNext(ad.SizeY, node, "SizeY"))
 	{
-		Logger::Error("Exeption at SizeY");
-		return;
+		Logger::Warning("Exeption at SizeY");
 	}
 	if (!LoadIntAndNext(ad.OffsetX, node, "OffsetX"))
 	{
-		Logger::Error("Exeption at OffsetX");
-		return;
+		Logger::Warning("Exeption at OffsetX");
 	}
 	if (!LoadIntAndNext(ad.OffsetY, node, "OffsetY"))
 	{
-		Logger::Error("Exeption at OffsetY");
-		return;
+		Logger::Warning("Exeption at OffsetY");
 	}
 	if (!LoadIntAndNext(ad.AnimationSpriteCount, node, "SpriteNum"))
 	{
-		Logger::Error("Exeption at SpriteNum");
-		return;
+		Logger::Warning("Exeption at SpriteNum");
 	}
 	if (!LoadIntAndNext(ad.SpriteOnLine, node, "SpritesOnLine"))
 	{
-		Logger::Error("Exeption at SpritesOnLine");
-		return;
+		Logger::Warning("Exeption at SpritesOnLine");
 	}
 	if (!LoadBoolAndNext(ad.IsReverted, node, "Reverted"))
 	{
-		Logger::Error("Exeption at Reverted");
-		return;
+		Logger::Warning("Exeption at Reverted");
 	}
 	if (!LoadFloatAndNext(ad.TimeBetweenAnimationInS, node, "TimeBetweenAnimation"))
 	{
-		Logger::Error("Exeption at TimeBetweenAnimation");
-		return;
+		Logger::Warning("Exeption at TimeBetweenAnimation");
 	}
 		
 }
@@ -338,33 +328,27 @@ void TextureMgr::LoadSTD(StaticTileData& std, rapidxml::xml_node<>* node)
 {
 	if(!LoadIntAndNext(std.StartX, node, "X"))
 	{
-		Logger::Error("Exeption at StartX");
-		return;
+		Logger::Warning("Exeption at StartX");
 	}
 	if (!LoadIntAndNext(std.StartY, node, "Y"))
 	{
-		Logger::Error("Exeption at StartY");
-		return;
+		Logger::Warning("Exeption at StartY");
 	}
 	if (!LoadIntAndNext(std.SizeX, node, "SizeX"))
 	{
-		Logger::Error("Exeption at SizeX");
-		return;
+		Logger::Warning("Exeption at SizeX");
 	}
 	if (!LoadIntAndNext(std.SizeY, node, "SizeY"))
 	{
-		Logger::Error("Exeption at SizeY");
-		return;
+		Logger::Warning("Exeption at SizeY");
 	}
 	if (!LoadBoolAndNext(std.IsRevertedX, node, "RevertedX"))
 	{
-		Logger::Error("Exeption at RevertedX");
-		return;
+		Logger::Warning("Exeption at RevertedX");
 	}
 	if (!LoadBoolAndNext(std.IsRevertedY, node, "RevertedY"))
 	{
-		Logger::Error("Exeption at RevertedY");
-		return;
+		Logger::Warning("Exeption at RevertedY");
 	}
 }
 
@@ -372,12 +356,14 @@ bool TextureMgr::LoadIntAndNext(int& i, rapidxml::xml_node<>*& node, const char*
 {
 	if (node == nullptr)
 	{
-		Logger::Error("Error while parsing an XML file: node is null");
+		Logger::Warning("Error while parsing an XML file: node is null, returning default value");
+		i = 0;
 		return false;
 	}
 	if (strcmp(node->name(), parameterName) != 0)
 	{
-		Logger::Error("Error while parsing an XML file: name is invalid");
+		Logger::Warning("Error while parsing an XML file: name is , returning default valueinvalid");
+		i = 0;
 		return false;
 	}
 	i = std::strtol(node->value(), nullptr, 10);
@@ -388,12 +374,14 @@ bool TextureMgr::LoadFloatAndNext(float& f, rapidxml::xml_node<>*& node, const c
 {
 	if (node == nullptr)
 	{
-		Logger::Error("Error while parsing an XML file: node is null");
+		Logger::Warning("Error while parsing an XML file: node is null, returning default value");
+		f = 0;
 		return false;
 	}
 	if (strcmp(node->name(), parameterName) != 0)
 	{
-		Logger::Error("Error while parsing an XML file: name is invalid");
+		Logger::Warning("Error while parsing an XML file: name is invalid, returning default value");
+		f = 0;
 		return false;
 	}
 	f = std::strtof(node->value(), nullptr);
@@ -404,12 +392,14 @@ bool TextureMgr::LoadBoolAndNext(bool& b, rapidxml::xml_node<>*& node, const cha
 {
 	if (node == nullptr)
 	{
-		Logger::Error("Error while parsing an XML file: node is null");
+		Logger::Warning("Error while parsing an XML file: node is null, returning default value");
+		b = false;
 		return false;
 	}
 	if (strcmp(node->name(), parameterName) != 0)
 	{
-		Logger::Error("Error while parsing an XML file: name is invalid");
+		Logger::Warning("Error while parsing an XML file: name is invalid, returning default value");
+		b = false;
 		return false;
 	}
 	b = node->value()[0] == '1';

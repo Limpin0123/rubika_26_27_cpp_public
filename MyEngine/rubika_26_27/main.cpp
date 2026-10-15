@@ -15,6 +15,7 @@
 #include "TransformComponent.h"
 #include "RenderComponent.h"
 #include "StaticDrawable.h"
+#include "AnimatedDrawable.h"
 
 int main()
 {
@@ -30,13 +31,13 @@ int main()
 
     /*### DEBUG AND TESTING ###*/
     gData.SceneManager->AddAndLoadScene("Debug_Scene");
-    gData.TextureManager->LoadTexture("C:\\Github\\rubika_26_27_cpp_public\\MyEngine\\Ressources\\Basement.png");
+    gData.TextureManager->LoadTexture("C:\\Github\\rubika_26_27_cpp_public\\MyEngine\\Ressources\\IsaacSprite.png");
 
     Entity& entity = gData.SceneManager->activeScene->AddEntity("Test_Entity");
     entity.AddComponent<TransformComponent>();
     RenderComponent* rc = entity.AddComponent<RenderComponent>();
-    StaticDrawable* sd = rc->AddDrawable<StaticDrawable>();
-    sd->SetTexturesAndStaticTile("Basement.png", "Corner_Bottom_Right");
+    AnimatedDrawable* ad = rc->AddDrawable<AnimatedDrawable>();
+    ad->SetTextureAndAnimation("IsaacSprite.png", "Body_Left");
     /*### ###*/
 
     while (window.isOpen())

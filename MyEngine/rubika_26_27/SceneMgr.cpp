@@ -176,8 +176,8 @@ void SceneMgr::DrawDebug()
 				ImGui::TableSetColumnIndex(1);
 				entity.DrawDebug();
 
-				ImGui::TableSetColumnIndex(2);
 				ImGui::PushID(&entity);
+				ImGui::TableSetColumnIndex(2);
 				SceneMgr::DrawComponentButton<TransformComponent>(entity, std::string("Transform"));
 				SceneMgr::DrawComponentButton<RenderComponent>(entity, std::string("Render"));
 				ImGui::PopID();

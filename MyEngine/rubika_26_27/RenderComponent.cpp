@@ -11,29 +11,15 @@
 
 
 RenderComponent::RenderComponent(Entity& entity) : IComponent(entity)
-{
-
-}
+{}
 
 RenderComponent::~RenderComponent()
 {}
 
 void RenderComponent::Draw(sf::RenderWindow& window) const
 {
-	TransformComponent* tr = GetEntity().GetComponent<TransformComponent>();
-	if (tr == nullptr)
-	{
-		return;
-	}
-
 	for (IDrawable* drawable : drawables)
 	{
-		sf::Transform wTr = sf::Transform();
-
-		wTr.rotate(sf::degrees(tr->GetRotation()))
-			.translate(tr->GetWorldPosition());
-
-		drawable->SetWorldTransform(wTr);
 		drawable->Draw(window);
 	}
 }
@@ -45,8 +31,15 @@ void RenderComponent::Start()
 
 void RenderComponent::Update(float fDelatTime)
 {
+	TransformComponent* tr = GetEntity().GetComponent<TransformComponent>();
+	if (tr == nullptr)
+	{
+		return;
+	}
+
 	for (IDrawable* drawable : drawables)
 	{
+		drawable->SetWorldTransform( tr->GetMatrix() * drawable->GetLocalTransform());
 		drawable->Update(fDelatTime);
 	}
 }

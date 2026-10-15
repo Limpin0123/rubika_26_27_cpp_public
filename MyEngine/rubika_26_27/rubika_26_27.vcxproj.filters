@@ -25,6 +25,18 @@
     <Filter Include="Header Files\Dependencies\rapidxml">
       <UniqueIdentifier>{a6860998-6b9d-4404-9eae-7167324ed327}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Entity &amp; Component">
+      <UniqueIdentifier>{5dce0cd3-30c0-478f-8dcf-39717e2b3983}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Drawable">
+      <UniqueIdentifier>{7eb9cab5-73ba-423f-9a71-1233889c0dea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Entity &amp; Component">
+      <UniqueIdentifier>{98391bd2-24fc-4a95-8341-7f1e57a6d92e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Drawable">
+      <UniqueIdentifier>{b7c5fd93-a54d-44d3-9640-89c44ea517d4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Dependencies\Imgui\imgui.cpp">
@@ -57,12 +69,6 @@
     <ClCompile Include="Logger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TransformComponent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Entity.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Scene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -72,20 +78,29 @@
     <ClCompile Include="TextureMgr.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="IComponent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="RenderComponent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="IDrawable.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="AnimatedDrawable.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Drawable</Filter>
     </ClCompile>
     <ClCompile Include="StaticDrawable.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Drawable</Filter>
+    </ClCompile>
+    <ClCompile Include="IDrawable.cpp">
+      <Filter>Source Files\Drawable</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Source Files\Entity &amp; Component</Filter>
+    </ClCompile>
+    <ClCompile Include="IComponent.cpp">
+      <Filter>Source Files\Entity &amp; Component</Filter>
+    </ClCompile>
+    <ClCompile Include="IDrawableComponent.cpp">
+      <Filter>Source Files\Entity &amp; Component</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderComponent.cpp">
+      <Filter>Source Files\Entity &amp; Component</Filter>
+    </ClCompile>
+    <ClCompile Include="TransformComponent.cpp">
+      <Filter>Source Files\Entity &amp; Component</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -146,12 +161,6 @@
     <ClInclude Include="Profiler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TransformComponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Entity.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Scene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -161,19 +170,37 @@
     <ClInclude Include="TextureMgr.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IComponent.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="TransformComponent.h">
+      <Filter>Header Files\Entity &amp; Component</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderComponent.hxx">
+      <Filter>Header Files\Entity &amp; Component</Filter>
     </ClInclude>
     <ClInclude Include="RenderComponent.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Entity &amp; Component</Filter>
     </ClInclude>
-    <ClInclude Include="IDrawable.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="IDrawableComponent.h">
+      <Filter>Header Files\Entity &amp; Component</Filter>
     </ClInclude>
-    <ClInclude Include="AnimatedDrawable.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="IComponent.h">
+      <Filter>Header Files\Entity &amp; Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.hxx">
+      <Filter>Header Files\Entity &amp; Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Header Files\Entity &amp; Component</Filter>
     </ClInclude>
     <ClInclude Include="StaticDrawable.h">
+      <Filter>Header Files\Drawable</Filter>
+    </ClInclude>
+    <ClInclude Include="IDrawable.h">
+      <Filter>Header Files\Drawable</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimatedDrawable.h">
+      <Filter>Header Files\Drawable</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneMgr.hxx">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

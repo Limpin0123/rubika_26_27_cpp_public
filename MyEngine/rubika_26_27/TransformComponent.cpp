@@ -1,5 +1,9 @@
 #include "TransformComponent.h"
 #include "Entity.h"
+#ifdef _USE_IMGUI
+#include "Imgui/imgui.h"
+#endif // _USE_IMGUI
+
 
 TransformComponent::TransformComponent(Entity& entity) : IComponent(entity)
 {
@@ -74,6 +78,35 @@ void TransformComponent::Update(float fDeltaTime)
 
 void TransformComponent::Destroy()
 {}
+
+void TransformComponent::DrawDebug()
+{
+	int step = 1;
+	int fastStep = 10;
+	int flags = ImGuiInputTextFlags_CharsDecimal;
+
+
+	ImGui::BeginGroup();
+	ImGui::TextColored(ImVec4(255, 0, 0, 255), "Transform Component");
+	ImGui::InputFloat2("Position: {X,Y}", &WorldPosition.x, "%.3f", flags);
+	if (ImGui::IsItemDeactivatedAfterEdit())
+	{
+		UpdateMatrix();
+	}
+	ImGui::NewLine();
+	ImGui::InputFloat("Rotation", &Rotation, step, fastStep, "%.3f", flags);
+	if (ImGui::IsItemDeactivatedAfterEdit())
+	{
+		UpdateMatrix();
+	}
+	ImGui::NewLine();
+	ImGui::InputFloat2("Scale {X,Y}", &Scale.x, "%.3f", flags);
+	if (ImGui::IsItemDeactivatedAfterEdit())
+	{
+		UpdateMatrix();
+	}
+	ImGui::EndGroup();
+}
 
 void TransformComponent::UpdateMatrix()
 {

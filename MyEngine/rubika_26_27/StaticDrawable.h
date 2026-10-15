@@ -1,6 +1,10 @@
 #pragma once
 
 #include "IDrawable.h"
+#include <SFML/Graphics/RectangleShape.hpp>
+
+struct TextureData;
+struct StaticTileData;
 
 class StaticDrawable : public IDrawable
 {
@@ -11,5 +15,17 @@ public:
 	virtual void Start() override;
 	virtual void Update(float deltaTime) override;
 	virtual void Destroy() override;
+
+	virtual void DrawDebug() override;
+
+	bool SetTexture(const std::string& textureName);
+	bool SetStaticTile(const std::string& staticTileName);
+	bool SetTexturesAndStaticTile(const std::string& textureName, const std::string& staticTileName);
+
+private:
+	sf::RectangleShape rec;
+
+	float color[4] = { 1,1,1,1 };
+	const TextureData* textureData;
 };
 

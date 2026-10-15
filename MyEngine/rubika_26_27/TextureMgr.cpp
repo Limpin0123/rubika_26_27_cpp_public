@@ -23,6 +23,22 @@ bool TextureData::isAnimatedData()
 	return animatedTextures.size() > 0;
 }
 
+const StaticTileData* TextureData::GetStaticTileData(std::string textureName) const
+{
+	auto it = staticTextures.find(textureName);
+	if (it == staticTextures.end())
+		return nullptr;
+	return &it->second;
+}
+
+const AnimationData* TextureData::GetAnimatedTileData(std::string textureName) const
+{
+	auto it = animatedTextures.find(textureName);
+	if (it == animatedTextures.end())
+		return nullptr;
+	return &it->second;
+}
+
 #pragma endregion
 
 
@@ -108,7 +124,7 @@ void TextureMgr::DrawDebug()
 
 			if (!fileName.empty())
 			{
-				std::filesystem::path fullPath = std::filesystem::current_path().parent_path() / TEXTURE_FOLDER / fileName;
+				GET_FULLPATH_WITH_FILENAME fileName;
 				LoadTexture(fullPath.string());
 			}
 		}

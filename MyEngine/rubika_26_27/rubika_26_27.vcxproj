@@ -256,6 +256,7 @@
     <ClInclude Include="RenderComponent.hxx" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneMgr.h" />
+    <ClInclude Include="SceneMgr.hxx" />
     <ClInclude Include="StaticDrawable.h" />
     <ClInclude Include="TextureMgr.h" />
     <ClInclude Include="TransformComponent.h" />

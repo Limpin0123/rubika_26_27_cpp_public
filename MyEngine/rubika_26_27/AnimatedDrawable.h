@@ -10,5 +10,8 @@ public:
 	virtual void Start() override;
 	virtual void Update(float deltaTime) override;
 	virtual void Destroy() override;
+
+
+	virtual void DrawDebug() override;
 };
 

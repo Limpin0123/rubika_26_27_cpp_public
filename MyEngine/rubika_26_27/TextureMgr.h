@@ -15,6 +15,7 @@
 
 #define DEFAULT_TEXTURE_NAME "DefaultTexture"
 #define TEXTURE_FOLDER "Ressources"
+#define GET_FULLPATH_WITH_FILENAME std::filesystem::path fullPath = std::filesystem::current_path().parent_path() / TEXTURE_FOLDER /
 
 struct AnimationData
 {
@@ -48,6 +49,8 @@ struct TextureData
 	sf::Texture Texture;
 
 	bool isAnimatedData();
+	const StaticTileData* GetStaticTileData(std::string textureName) const;
+	const AnimationData* GetAnimatedTileData(std::string textureName) const;
 
 	// Container of AnimationData AnimationsData;
 	std::unordered_map<std::string, AnimationData> animatedTextures;

@@ -33,4 +33,9 @@ private:
 #ifdef _USE_IMGUI
 	Scene* inspectedScene;
 #endif
+
+	template<typename T>
+	void DrawComponentButton(Entity& entity,  std::string title);
 };
+
+#include "SceneMgr.hxx"

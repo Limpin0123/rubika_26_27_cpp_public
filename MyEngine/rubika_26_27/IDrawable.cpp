@@ -1,5 +1,10 @@
 #include "IDrawable.h"
 
+#ifdef _USE_IMGUI
+#include "Imgui/imgui.h"
+#endif // _USE_IMGUI
+
+
 IDrawable::IDrawable() : Visible(true), WorldTransform(sf::Transform::Identity), Drawable(nullptr)
 {}
 
@@ -28,7 +33,7 @@ void IDrawable::SetWorldTransform(const sf::Transform& transform)
 
 void IDrawable::Draw(sf::RenderWindow& window) const
 {
-	if (!Drawable)
+	if (!Drawable || !Visible)
 	{
 		return;
 	}
@@ -37,4 +42,15 @@ void IDrawable::Draw(sf::RenderWindow& window) const
 	states.transform = WorldTransform;
 
 	window.draw(*Drawable, states);
+}
+
+void IDrawable::DrawDebug()
+{
+	ImGui::PushID(this);
+	ImGui::Text("drawable type: %s", typeid(*this).name());
+	if (ImGui::Checkbox("Visibile", &Visible))
+	{
+		//nothing
+	}
+	ImGui::PopID();
 }

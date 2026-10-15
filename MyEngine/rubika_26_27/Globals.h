@@ -1,5 +1,7 @@
 #pragma once
 
+#include <unordered_map>
+
 class DebugMgr;
 class Logger;
 class SceneMgr;

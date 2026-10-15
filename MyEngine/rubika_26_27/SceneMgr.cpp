@@ -4,6 +4,8 @@
 	#include "Globals.h"
 #ifdef _USE_IMGUI
 	#include <Imgui/imgui.h>
+	#include "TransformComponent.h"
+	#include "RenderComponent.h"
 #endif
 
 SceneMgr::SceneMgr()
@@ -157,7 +159,7 @@ void SceneMgr::DrawDebug()
 
 
 		ImGui::TextColored(ImVec4(1, 0, 0, 1), "Entities in scene:");
-		if (ImGui::BeginTable("Entities", 2, ImGuiTableFlags_Resizable | ImGuiTableFlags_NoSavedSettings | ImGuiTableFlags_Borders))
+		if (ImGui::BeginTable("Entities", 4, ImGuiTableFlags_Resizable | ImGuiTableFlags_NoSavedSettings | ImGuiTableFlags_Borders))
 		{
 			ImGui::TableSetupColumn("Name");
 			ImGui::TableSetupColumn("");
@@ -172,6 +174,15 @@ void SceneMgr::DrawDebug()
 				ImGui::Text(entity.name.c_str());
 
 				ImGui::TableSetColumnIndex(1);
+				entity.DrawDebug();
+
+				ImGui::TableSetColumnIndex(2);
+				ImGui::PushID(&entity);
+				SceneMgr::DrawComponentButton<TransformComponent>(entity, std::string("Transform"));
+				SceneMgr::DrawComponentButton<RenderComponent>(entity, std::string("Render"));
+				ImGui::PopID();
+
+				ImGui::TableSetColumnIndex(3);
 				if (ImGui::Button(("Remove##" + std::to_string(BtnId++)).c_str()))
 				{
 					inspectedScene->RemoveEntity(&entity);

@@ -1,9 +1,15 @@
 #include "StaticDrawable.h"
 #include "Globals.h"
+#include "Logger.h"
 #include "TextureMgr.h"
 
 #include <SFML/Graphics/Rect.hpp>
-#include <SFML/Graphics/RectangleShape.hpp>
+
+#ifdef _USE_IMGUI
+#include "Imgui/imgui.h"
+#endif // _USE_IMGUI
+
+
 
 StaticDrawable::StaticDrawable()
 {}
@@ -13,13 +19,13 @@ StaticDrawable::~StaticDrawable()
 
 void StaticDrawable::Start()
 {
-	sf::RectangleShape* rec = new sf::RectangleShape();
-	rec->setFillColor(sf::Color(255, 0, 0, 255));
-	rec->setSize(sf::Vector2f(500, 500));
-	rec->setPosition(sf::Vector2f(10, 10));
-	rec->setTexture(&gData.TextureManager->GetTextureData(DEFAULT_TEXTURE_NAME).Texture);
+	rec = sf::RectangleShape();
+	rec.setFillColor(sf::Color(color[0] * 255, color[1] * 255, color[2] * 255, color[3] * 255));
+	rec.setSize(sf::Vector2f(500, 500));
+	rec.setPosition(sf::Vector2f(10, 10));
+	rec.setTexture(&gData.TextureManager->GetTextureData(DEFAULT_TEXTURE_NAME).Texture);
 
-	Drawable = rec;
+	Drawable = &rec;
 }
 
 void StaticDrawable::Update(float deltaTime)
@@ -29,4 +35,65 @@ void StaticDrawable::Update(float deltaTime)
 
 void StaticDrawable::Destroy()
 {
+}
+
+void StaticDrawable::DrawDebug()
+{
+	IDrawable::DrawDebug();
+
+	ImGui::PushID(this);
+	if (ImGui::ColorPicker4("Fill Color", color))
+	{
+		sf::RectangleShape* rec = dynamic_cast<sf::RectangleShape*>(Drawable);
+		rec->setFillColor(
+			sf::Color(
+				color[0] * 255,
+				color[1] * 255,
+				color[2] * 255,
+				color[3] * 255
+			)
+		);
+	}
+	ImGui::PopID();
+}
+
+bool StaticDrawable::SetTexture(const std::string& textureName)
+{
+	textureData = &gData.TextureManager->GetTextureData(textureName);
+	if (textureData == nullptr)
+	{
+		Logger::Warning("Couldn't load Texture");
+		return false;
+	}
+	sf::RectangleShape* rs = dynamic_cast<sf::RectangleShape*>(Drawable);
+	rs->setTexture(&textureData->Texture);
+
+	return true;
+}
+
+bool StaticDrawable::SetStaticTile(const std::string& staticTileName)
+{
+	const StaticTileData* std = textureData->GetStaticTileData(staticTileName);
+	if (std == nullptr)
+	{
+		Logger::Warning("Couldn't load staticTileData from texture");
+		return false;
+	}
+	sf::RectangleShape* rs = dynamic_cast<sf::RectangleShape*>(Drawable);
+
+	rs->setTextureRect(
+		sf::IntRect(
+			sf::Vector2i(
+				std->IsRevertedX ? std->StartX + std->SizeX : std->StartX,
+				std->IsRevertedY ? std->StartY + std->SizeY : std->StartY),
+			sf::Vector2i(
+				std->IsRevertedX ? -std->SizeX : std->SizeX,
+				std->IsRevertedY ? -std->SizeY : std->SizeY)
+		));
+	return true;
+}
+
+bool StaticDrawable::SetTexturesAndStaticTile(const std::string& textureName, const std::string& staticTileName)
+{
+	return SetTexture(textureName) && SetStaticTile(staticTileName);
 }

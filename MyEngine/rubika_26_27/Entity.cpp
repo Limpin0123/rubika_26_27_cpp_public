@@ -45,9 +45,12 @@ void Entity::Draw(sf::RenderWindow& window) const
 	{
 		dc->Draw(window);
 	}
-	/*RenderComponent* rc = GetComponent<RenderComponent>();
-	if (rc != nullptr)
+}
+
+void Entity::DrawDebug()
+{
+	for (IComponent* component : Components)
 	{
-		rc->Draw(window);
-	}*/
+		component->DrawDebug();
+	}
 }

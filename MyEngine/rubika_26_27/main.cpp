@@ -35,7 +35,8 @@ int main()
     Entity& entity = gData.SceneManager->activeScene->AddEntity("Test_Entity");
     entity.AddComponent<TransformComponent>();
     RenderComponent* rc = entity.AddComponent<RenderComponent>();
-    rc->AddDrawable<StaticDrawable>();
+    StaticDrawable* sd = rc->AddDrawable<StaticDrawable>();
+    sd->SetTexturesAndStaticTile("Basement.png", "Corner_Bottom_Right");
     /*### ###*/
 
     while (window.isOpen())

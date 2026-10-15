@@ -1,4 +1,5 @@
 #include "Logger.h"
+#include "Entity.h"
 
 template<typename T>
 T* Entity::AddComponent()
@@ -22,6 +23,36 @@ T* Entity::AddComponent()
 }
 
 template<typename T>
+inline void Entity::RemoveComponent()
+{
+	IComponent* component = GetComponent<T>();
+	if (component == nullptr)
+	{
+		return;
+	}
+
+	auto it = std::find(Components.begin(), Components.end(), component);
+	if (it != Components.end())
+	{
+		IDrawableComponent* drawableComponent = dynamic_cast<IDrawableComponent*>(component);
+		if (drawableComponent != nullptr)
+		{
+			auto it2 = std::find(DrawableComponents.begin(), DrawableComponents.end(), drawableComponent);
+			if (it2 != DrawableComponents.end())
+			{
+				DrawableComponents.erase(it2);
+			}
+		}
+
+		component->Destroy();
+		delete component;
+		Components.erase(it);
+	}
+	
+	return;
+}
+
+template<typename T>
 T* Entity::GetComponent() const
 {
 	for (IComponent* component : Components)
@@ -32,4 +63,10 @@ T* Entity::GetComponent() const
 		}
 	}
 	return nullptr;
+}
+
+template<typename T>
+inline bool Entity::CanAddComponent()
+{
+	return GetComponent<T>() == nullptr;
 }

@@ -27,13 +27,18 @@ public:
 	template <typename T>
 	T* AddComponent();
 	template <typename T>
+	void RemoveComponent();
+	template <typename T>
 	T* GetComponent() const;
+	template <typename T>
+	bool CanAddComponent();
 
 	/*
 	 * This function will be removed later, when the rendering system will be more robust. But for now, we need it here.
 	 * Function that will be called each frame to draw the entity
 	*/
 	void Draw(sf::RenderWindow& window) const;
+	void DrawDebug();
 
 private:
 	std::vector<IComponent*> Components;

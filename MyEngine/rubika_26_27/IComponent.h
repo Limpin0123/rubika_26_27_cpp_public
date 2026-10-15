@@ -18,6 +18,8 @@ public:
 
 	virtual void Destroy() = 0;
 
+	virtual void DrawDebug() = 0;
+
 protected:
 	Entity& GetEntity() const { return ParentEntity; };
 

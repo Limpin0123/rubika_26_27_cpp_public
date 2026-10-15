@@ -36,6 +36,8 @@ public:
 	void Update(float fDeltaTime) override;
 	void Destroy() override;
 
+	void DrawDebug() override;
+
 private:
 	sf::Transform Matrix;
 

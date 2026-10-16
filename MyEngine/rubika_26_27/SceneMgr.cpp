@@ -18,13 +18,20 @@ SceneMgr::SceneMgr()
 
 SceneMgr::~SceneMgr()
 {
+	activeScene = nullptr;
+	for (auto& scenePair : scenes)
+	{
+		auto it = scenes.find(scenePair.first);
+		if (it == scenes.end())
+			continue;
+
+		it->second.Destroy();
+	}
+
+	scenes.clear();
 #ifdef _USE_IMGUI
 	gData.DebugMgr->UnregisterDebugableWindow("Scene Debugger");
 #endif
-	for (auto& scenePair : scenes)
-	{
-		RemoveScene(scenePair.first);
-	}
 }
 
 Scene* SceneMgr::AddAndLoadScene(std::string sceneName)

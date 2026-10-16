@@ -34,17 +34,17 @@ void Globals::Shut()
 
 void Globals::Destroy()
 {
-	delete DebugMgr;
-	DebugMgr = nullptr;
-
-	delete Logger;
-	Logger = nullptr;
-
 	delete SceneManager;
 	SceneManager = nullptr;
 
 	delete TextureManager;
 	TextureManager = nullptr;
+
+	delete DebugMgr;
+	DebugMgr = nullptr;
+
+	delete Logger;
+	Logger = nullptr;
 }
 
 void Globals::IncrementFrameCount()

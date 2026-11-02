@@ -284,43 +284,64 @@ void  TextureMgr::LoadAD(AnimationData& ad, rapidxml::xml_node<>* node)
 {
 	if (!LoadIntAndNext(ad.StartX, node, "X"))
 	{
+#ifdef TEXTURE_MANAGER_DEEP_DEBUG
 		Logger::Warning("Exeption at StartX");
+#endif
+
 	}
 	if(!LoadIntAndNext(ad.StartY, node, "Y"))
 	{
+#ifdef TEXTURE_MANAGER_DEEP_DEBUG
 		Logger::Warning("Exeption at StartY");
+#endif
 	}
 	if (!LoadIntAndNext(ad.SizeX, node, "SizeX"))
 	{
+#ifdef TEXTURE_MANAGER_DEEP_DEBUG
 		Logger::Warning("Exeption at SizeX");
+#endif
 	}
 	if(!LoadIntAndNext(ad.SizeY, node, "SizeY"))
 	{
+#ifdef TEXTURE_MANAGER_DEEP_DEBUG
 		Logger::Warning("Exeption at SizeY");
+#endif
 	}
 	if (!LoadIntAndNext(ad.OffsetX, node, "OffsetX"))
 	{
+#ifdef TEXTURE_MANAGER_DEEP_DEBUG
 		Logger::Warning("Exeption at OffsetX");
+#endif
 	}
 	if (!LoadIntAndNext(ad.OffsetY, node, "OffsetY"))
 	{
+#ifdef TEXTURE_MANAGER_DEEP_DEBUG
 		Logger::Warning("Exeption at OffsetY");
+#endif
 	}
 	if (!LoadIntAndNext(ad.AnimationSpriteCount, node, "SpriteNum"))
 	{
+#ifdef TEXTURE_MANAGER_DEEP_DEBUG
 		Logger::Warning("Exeption at SpriteNum");
+#endif
 	}
 	if (!LoadIntAndNext(ad.SpriteOnLine, node, "SpritesOnLine"))
 	{
+#ifdef TEXTURE_MANAGER_DEEP_DEBUG
 		Logger::Warning("Exeption at SpritesOnLine");
+#endif
 	}
 	if (!LoadBoolAndNext(ad.IsReverted, node, "Reverted"))
 	{
+#ifdef TEXTURE_MANAGER_DEEP_DEBUG
 		Logger::Warning("Exeption at Reverted");
+#endif
 	}
 	if (!LoadFloatAndNext(ad.TimeBetweenAnimationInS, node, "TimeBetweenAnimation"))
 	{
+#ifdef TEXTURE_MANAGER_DEEP_DEBUG
 		Logger::Warning("Exeption at TimeBetweenAnimation");
+#endif
 	}
 		
 }
@@ -328,27 +349,39 @@ void TextureMgr::LoadSTD(StaticTileData& std, rapidxml::xml_node<>* node)
 {
 	if(!LoadIntAndNext(std.StartX, node, "X"))
 	{
+#ifdef TEXTURE_MANAGER_DEEP_DEBUG
 		Logger::Warning("Exeption at StartX");
+#endif
 	}
 	if (!LoadIntAndNext(std.StartY, node, "Y"))
 	{
+#ifdef TEXTURE_MANAGER_DEEP_DEBUG
 		Logger::Warning("Exeption at StartY");
+#endif
 	}
 	if (!LoadIntAndNext(std.SizeX, node, "SizeX"))
 	{
+#ifdef TEXTURE_MANAGER_DEEP_DEBUG
 		Logger::Warning("Exeption at SizeX");
+#endif
 	}
 	if (!LoadIntAndNext(std.SizeY, node, "SizeY"))
 	{
+#ifdef TEXTURE_MANAGER_DEEP_DEBUG
 		Logger::Warning("Exeption at SizeY");
+#endif
 	}
 	if (!LoadBoolAndNext(std.IsRevertedX, node, "RevertedX"))
 	{
+#ifdef TEXTURE_MANAGER_DEEP_DEBUG
 		Logger::Warning("Exeption at RevertedX");
+#endif
 	}
 	if (!LoadBoolAndNext(std.IsRevertedY, node, "RevertedY"))
 	{
+#ifdef TEXTURE_MANAGER_DEEP_DEBUG
 		Logger::Warning("Exeption at RevertedY");
+#endif
 	}
 }
 
@@ -356,13 +389,17 @@ bool TextureMgr::LoadIntAndNext(int& i, rapidxml::xml_node<>*& node, const char*
 {
 	if (node == nullptr)
 	{
+#ifdef TEXTURE_MANAGER_DEEP_DEBUG
 		Logger::Warning("Error while parsing an XML file: node is null, returning default value");
+#endif
 		i = 0;
 		return false;
 	}
 	if (strcmp(node->name(), parameterName) != 0)
 	{
+#ifdef TEXTURE_MANAGER_DEEP_DEBUG
 		Logger::Warning("Error while parsing an XML file: name is , returning default valueinvalid");
+#endif
 		i = 0;
 		return false;
 	}
@@ -374,13 +411,17 @@ bool TextureMgr::LoadFloatAndNext(float& f, rapidxml::xml_node<>*& node, const c
 {
 	if (node == nullptr)
 	{
+#ifdef TEXTURE_MANAGER_DEEP_DEBUG
 		Logger::Warning("Error while parsing an XML file: node is null, returning default value");
+#endif
 		f = 0;
 		return false;
 	}
 	if (strcmp(node->name(), parameterName) != 0)
 	{
+#ifdef TEXTURE_MANAGER_DEEP_DEBUG
 		Logger::Warning("Error while parsing an XML file: name is invalid, returning default value");
+#endif
 		f = 0;
 		return false;
 	}
@@ -392,13 +433,17 @@ bool TextureMgr::LoadBoolAndNext(bool& b, rapidxml::xml_node<>*& node, const cha
 {
 	if (node == nullptr)
 	{
+#ifdef TEXTURE_MANAGER_DEEP_DEBUG
 		Logger::Warning("Error while parsing an XML file: node is null, returning default value");
+#endif
 		b = false;
 		return false;
 	}
 	if (strcmp(node->name(), parameterName) != 0)
 	{
+#ifdef TEXTURE_MANAGER_DEEP_DEBUG
 		Logger::Warning("Error while parsing an XML file: name is invalid, returning default value");
+#endif
 		b = false;
 		return false;
 	}

@@ -8,15 +8,14 @@
 	#include "RenderComponent.h"
 #endif
 
-SceneMgr::SceneMgr()
+void SceneMgr::Init()
 {
 	activeScene = nullptr;
 #ifdef _USE_IMGUI
 	gData.DebugMgr->RegisterDebugableWindow("Scene Debugger", this);
 #endif // _USE_IMGUI
 }
-
-SceneMgr::~SceneMgr()
+void SceneMgr::Shut()
 {
 	activeScene = nullptr;
 	for (auto& scenePair : scenes)

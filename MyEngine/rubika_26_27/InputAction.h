@@ -2,8 +2,9 @@
 
 #include <functional>
 #include <string>
+#include "DebugMgr.h"
 
-class InputAction
+class InputAction : public IDebugable
 {
 public:
 	InputAction() = default;
@@ -13,16 +14,28 @@ public:
 	void RegisterCallback(const std::string& debugName, std::function<void(float)> callback, void* owner);
 	void UnregisterCallbacks(void* owner);
 
+	const std::string GetName() const;
+
+	virtual void DrawDebug() override;
+
 private:
 	struct sCallbackInfo
 	{
 		std::string DebugName;
 		std::function<void(float)> Callback;
 		void* Owner = nullptr;
+
+		sCallbackInfo() = default;
+		sCallbackInfo(const std::string& name, std::function<void(float)> callback, void*& owner)
+		{
+			DebugName = name;
+			Callback = callback;
+			Owner = owner;
+		}
 	};
 
 	std::string ActionName;
 	std::size_t ActionNameHash;
 	float Value = 0.f;
-	container<sCallbackInfo> Callbacks
+	std::vector<sCallbackInfo> Callbacks;
 };

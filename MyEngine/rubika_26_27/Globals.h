@@ -1,11 +1,14 @@
 #pragma once
 
+//#define TEXTURE_MANAGER_DEEP_DEBUG
+
 #include <unordered_map>
 
 class DebugMgr;
 class Logger;
 class SceneMgr;
 class TextureMgr;
+class InputMgr;
 
 enum AnimationRevertType
 {
@@ -33,6 +36,7 @@ public:
 	Logger* Logger;
 	SceneMgr* SceneManager;
 	TextureMgr* TextureManager;
+	InputMgr* InputManager;
 };
 
 extern Globals gData;

@@ -215,8 +215,11 @@
     <ClCompile Include="IComponent.cpp" />
     <ClCompile Include="IDrawable.cpp" />
     <ClCompile Include="IDrawableComponent.cpp" />
+    <ClCompile Include="InputAction.cpp" />
+    <ClCompile Include="InputMgr.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="RenderComponent.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneMgr.cpp" />
@@ -225,7 +228,8 @@
     <ClCompile Include="TransformComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\README.md" />
+    <None Include="..\README_november.md" />
+    <None Include="..\README_october.md" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -250,7 +254,10 @@
     <ClInclude Include="IComponent.h" />
     <ClInclude Include="IDrawable.h" />
     <ClInclude Include="IDrawableComponent.h" />
+    <ClInclude Include="InputAction.h" />
+    <ClInclude Include="InputMgr.h" />
     <ClInclude Include="Logger.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="Profiler.h" />
     <ClInclude Include="RenderComponent.h" />
     <ClInclude Include="RenderComponent.hxx" />

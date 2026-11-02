@@ -8,6 +8,10 @@
 #include <DebugMgr.h>
 #include <TextureMgr.h>
 
+#include <inputMgr.h>
+#include "InputAction.h"
+#include "Player.h"
+
 #include "Entity.h"
 #include "Scene.h"
 #include "SceneMgr.h"
@@ -33,11 +37,52 @@ int main()
     gData.SceneManager->AddAndLoadScene("Debug_Scene");
     gData.TextureManager->LoadTexture("C:\\Github\\rubika_26_27_cpp_public\\MyEngine\\Ressources\\IsaacSprite.png");
 
-    Entity& entity = gData.SceneManager->activeScene->AddEntity("Test_Entity");
-    entity.AddComponent<TransformComponent>();
-    RenderComponent* rc = entity.AddComponent<RenderComponent>();
+
+    Player player = Player();
+    gData.SceneManager->activeScene->AddEntity(player);
+    RenderComponent* rc = player.AddComponent<RenderComponent>();
     AnimatedDrawable* ad = rc->AddDrawable<AnimatedDrawable>();
     ad->SetTextureAndAnimation("IsaacSprite.png", "Body_Left");
+
+    InputAction* iaUp = new InputAction("Up");
+    InputAction* iaDown = new InputAction("Down");
+    InputAction* iaLeft = new InputAction("Left");
+    InputAction* iaRight = new InputAction("Right");
+
+    gData.InputManager->AddInputAction(iaUp);
+    gData.InputManager->AddInputAction(iaDown);
+    gData.InputManager->AddInputAction(iaLeft);
+    gData.InputManager->AddInputAction(iaRight);
+
+    gData.InputManager->BindIAToKey(sf::Keyboard::Key::Up, iaUp->GetName());
+    gData.InputManager->BindIAToKey(sf::Keyboard::Key::Down, iaDown->GetName());
+    gData.InputManager->BindIAToKey(sf::Keyboard::Key::Left, iaLeft->GetName());
+    gData.InputManager->BindIAToKey(sf::Keyboard::Key::Right, iaRight->GetName());
+
+    std::function<void(float)> UpLambda = [&player](float value) -> void
+        {
+            player.MoveUp(value);
+        };
+    std::function<void(float)> DownLambda = [&player](float value) -> void
+        {
+            player.MoveDown(value);
+        };
+    std::function<void(float)> LeftLambda = [&player](float value) -> void
+        {
+            player.MoveLeft(value);
+        };
+    std::function<void(float)> RightLambda = [&player](float value) -> void
+        {
+            player.MoveRight(value);
+        };
+
+    //New way of creating the lambda
+    //gData.InputManager->RegisterToIA(iaUp->GetName(), "Move Up", std::bind(&Player::MoveUp, &player, std::placeholders::_1), &player);
+
+    gData.InputManager->RegisterToIA(iaUp->GetName(), "Move Up", UpLambda, &player);
+    gData.InputManager->RegisterToIA(iaDown->GetName(), "Move Down", DownLambda, &player);
+    gData.InputManager->RegisterToIA(iaLeft->GetName(), "Move Left", LeftLambda, &player);
+    gData.InputManager->RegisterToIA(iaRight->GetName(), "Move Right", RightLambda, &player);
     /*### ###*/
 
     while (window.isOpen())
@@ -81,6 +126,7 @@ int main()
 
         PROFILER_EVENT_BEGIN(PROFILER_COLOR_GREEN, "Draw");
 
+        gData.InputManager->Update(fDeltaTimeS);
         gData.SceneManager->UpdateActiveScene(fDeltaTimeS);
 
         window.clear();

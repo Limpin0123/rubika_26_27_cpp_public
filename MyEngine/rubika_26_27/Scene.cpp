@@ -37,6 +37,12 @@ Entity& Scene::AddEntity(std::string entityName)
 	return *Entities[Entities.size()-1];
 }
 
+void Scene::AddEntity(Entity& entity)
+{
+	Entities.push_back(&entity);
+	Entities[Entities.size() - 1]->Start();
+}
+
 void Scene::RemoveEntity(Entity* entityptr)
 {
 	for (int i = 0; i < Entities.size(); i++)

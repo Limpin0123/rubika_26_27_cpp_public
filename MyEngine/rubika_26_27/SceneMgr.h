@@ -9,9 +9,9 @@
 
 class SceneMgr : public IDebugable
 {
-public: 
-	SceneMgr();
-	~SceneMgr();
+public:
+	void Init();
+	void Shut();
 
 	Scene* activeScene;
 

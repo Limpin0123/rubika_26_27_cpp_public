@@ -37,21 +37,23 @@ Entity& Scene::AddEntity(std::string entityName)
 	return *Entities[Entities.size()-1];
 }
 
-void Scene::AddEntity(Entity& entity)
+void Scene::AddEntity(Entity* entity)
 {
-	Entities.push_back(&entity);
+	Entities.push_back(entity);
 	Entities[Entities.size() - 1]->Start();
 }
 
 void Scene::RemoveEntity(Entity* entityptr)
 {
-	for (int i = 0; i < Entities.size(); i++)
+	for (auto i = Entities.begin(); i != Entities.end(); i++)
 	{
-		if (Entities[i] == entityptr) 
+		if (*i == entityptr)
 		{
 			entityptr->Destroy();
 			delete entityptr;
-			Entities.erase(Entities.begin() + i);
+			//erase return the next iterator in the container
+			i = Entities.erase(i);
+			break;
 		}
 	}
 }
@@ -68,8 +70,10 @@ void Scene::DestroyAllEntities()
 {
 	for (Entity* entity : Entities)
 	{
-		RemoveEntity(entity);
+		entity->Destroy();
+		delete entity;
 	}
+	Entities.clear();
 }
 
 int Scene::GetEntityAmount()

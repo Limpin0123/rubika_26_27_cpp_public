@@ -9,12 +9,15 @@ class InputAction : public IDebugable
 public:
 	InputAction() = default;
 	InputAction(const std::string& name);
+
 	void SetActionName(const std::string& name);
 	void SetValue(float value);
+
 	void RegisterCallback(const std::string& debugName, std::function<void(float)> callback, void* owner);
 	void UnregisterCallbacks(void* owner);
 
 	const std::string GetName() const;
+	const float GetValue() const;
 
 	virtual void DrawDebug() override;
 

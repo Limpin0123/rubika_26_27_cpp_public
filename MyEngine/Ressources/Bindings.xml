@@ -1,0 +1,22 @@
+<Bindings>
+	<InputAction Name ="Up">
+		<BindedKey Type="Keyboard">25</BindedKey>
+	</InputAction>
+	<InputAction Name ="Down">
+		<BindedKey Type="Keyboard">18</BindedKey>
+	</InputAction>
+	<InputAction Name ="Left">
+		<BindedKey Type="Keyboard">16</BindedKey>
+	</InputAction>
+	<InputAction Name ="Right">
+		<BindedKey Type="Keyboard">3</BindedKey>
+	</InputAction>
+</Bindings>
+
+<!--<BindedKey Type="Mouse">PositionX</BindedKey>    X position of the mouse-->
+<!--<BindedKey Type="Mouse">PositionY</BindedKey>    Y position of the mouse-->
+<!--<BindedKey Type="Mouse">0</BindedKey>    Left click of the mouse-->
+<!--<BindedKey Type="Mouse">1</BindedKey>    right click of the mouse-->
+<!--<BindedKey Type="Mouse">2</BindedKey>    middle click of the mouse-->
+<!--<BindedKey Type="Mouse">3</BindedKey>    extra1 click of the mouse-->
+<!--<BindedKey Type="Mouse">4</BindedKey>    extra2 click of the mouse-->

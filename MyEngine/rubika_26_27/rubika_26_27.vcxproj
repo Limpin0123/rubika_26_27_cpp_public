@@ -256,6 +256,7 @@
     <ClInclude Include="IDrawableComponent.h" />
     <ClInclude Include="InputAction.h" />
     <ClInclude Include="InputMgr.h" />
+    <ClInclude Include="InputMgr.hxx" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Profiler.h" />

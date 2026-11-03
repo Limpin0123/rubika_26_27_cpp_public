@@ -45,6 +45,11 @@ const std::string InputAction::GetName() const
 	return ActionName;
 }
 
+const float InputAction::GetValue() const
+{
+	return Value;
+}
+
 void InputAction::DrawDebug()
 {
 	ImGui::Text(("Registered Callback(s): " + std::to_string(Callbacks.size())).c_str());

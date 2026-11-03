@@ -38,12 +38,13 @@ int main()
     gData.TextureManager->LoadTexture("C:\\Github\\rubika_26_27_cpp_public\\MyEngine\\Ressources\\IsaacSprite.png");
 
 
-    Player player = Player();
+    Player* player = new Player();
     gData.SceneManager->activeScene->AddEntity(player);
-    RenderComponent* rc = player.AddComponent<RenderComponent>();
+    RenderComponent* rc = player->AddComponent<RenderComponent>();
     AnimatedDrawable* ad = rc->AddDrawable<AnimatedDrawable>();
     ad->SetTextureAndAnimation("IsaacSprite.png", "Body_Left");
 
+    //Input Action Register
     InputAction* iaUp = new InputAction("Up");
     InputAction* iaDown = new InputAction("Down");
     InputAction* iaLeft = new InputAction("Left");
@@ -54,26 +55,28 @@ int main()
     gData.InputManager->AddInputAction(iaLeft);
     gData.InputManager->AddInputAction(iaRight);
 
-    gData.InputManager->BindIAToKey(sf::Keyboard::Key::Up, iaUp->GetName());
+    gData.InputManager->LoadBindings();
+
+    /*gData.InputManager->BindIAToKey(sf::Keyboard::Key::Up, iaUp->GetName());
     gData.InputManager->BindIAToKey(sf::Keyboard::Key::Down, iaDown->GetName());
     gData.InputManager->BindIAToKey(sf::Keyboard::Key::Left, iaLeft->GetName());
-    gData.InputManager->BindIAToKey(sf::Keyboard::Key::Right, iaRight->GetName());
+    gData.InputManager->BindIAToKey(sf::Keyboard::Key::Right, iaRight->GetName());*/
 
     std::function<void(float)> UpLambda = [&player](float value) -> void
         {
-            player.MoveUp(value);
+            player->MoveUp(value);
         };
     std::function<void(float)> DownLambda = [&player](float value) -> void
         {
-            player.MoveDown(value);
+            player->MoveDown(value);
         };
     std::function<void(float)> LeftLambda = [&player](float value) -> void
         {
-            player.MoveLeft(value);
+            player->MoveLeft(value);
         };
     std::function<void(float)> RightLambda = [&player](float value) -> void
         {
-            player.MoveRight(value);
+            player->MoveRight(value);
         };
 
     //New way of creating the lambda

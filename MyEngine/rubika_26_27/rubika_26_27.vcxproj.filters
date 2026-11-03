@@ -224,5 +224,8 @@
     <ClInclude Include="Player.h">
       <Filter>Header Files\Entity &amp; Component</Filter>
     </ClInclude>
+    <ClInclude Include="InputMgr.hxx">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

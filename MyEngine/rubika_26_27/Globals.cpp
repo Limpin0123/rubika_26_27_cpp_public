@@ -32,10 +32,10 @@ void Globals::Init()
 
 void Globals::Shut()
 {
-	Logger->Shut();
+	InputManager->Shut();
 	SceneManager->Shut();
 	TextureManager->Shut();
-	InputManager->Shut();
+	Logger->Shut();
 }
 
 void Globals::Destroy()

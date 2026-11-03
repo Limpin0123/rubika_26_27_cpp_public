@@ -1,28 +1,35 @@
 #include "Player.h"
 #include "TransformComponent.h"
-#include "SFML/Graphics/Transform.hpp"
 
-Player::Player(std::string friendlyName) : Entity(friendlyName)
+Player::Player(std::string friendlyName) : Entity(friendlyName)//, movementInputs(0,0)
 {
+	movementInputs = sf::Vector2f(0,0);
 	transform = AddComponent<TransformComponent>();
 }
 
-void Player::MoveUp(float)
+void Player::MoveUp(float value)
 {
-	transform->SetWorldPosition(transform->GetWorldPosition() + sf::Vector2f(0, -1));
+	movementInputs.y = -value * 0.5f;
 }
 
-void Player::MoveDown(float)
+void Player::MoveDown(float value)
 {
-	transform->SetWorldPosition(transform->GetWorldPosition() + sf::Vector2f(0, 1));
+	movementInputs.y = value * 0.5f;
 }
 
-void Player::MoveLeft(float)
+void Player::MoveLeft(float value)
 {
-	transform->SetWorldPosition(transform->GetWorldPosition() + sf::Vector2f(-1,0));
+	movementInputs.x = -value * 0.5f;
 }
 
-void Player::MoveRight(float)
+void Player::MoveRight(float value)
 {
-	transform->SetWorldPosition(transform->GetWorldPosition() + sf::Vector2f(1,0));
+	movementInputs.x = value * 0.5f;
+}
+
+void Player::Update(float fDeltaTime)
+{
+	Entity::Update(fDeltaTime);
+	//Logger::Info("X:" + std::to_string(movementInputs.x) + " Y:" + std::to_string(movementInputs.y));
+	transform->SetWorldPosition(transform->GetWorldPosition() + movementInputs);
 }

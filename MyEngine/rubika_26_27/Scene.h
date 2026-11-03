@@ -23,7 +23,7 @@ public:
 	virtual void Destroy();
 
 	virtual Entity& AddEntity(std::string entityName);
-	virtual void AddEntity(Entity& entity);
+	virtual void AddEntity(Entity* entity);
 	virtual void RemoveEntity(Entity* entityptr);
 
 	/*

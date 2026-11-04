@@ -81,6 +81,7 @@ void TransformComponent::Destroy()
 
 void TransformComponent::DrawDebug()
 {
+	ImGui::PushID(this);
 	int step = 1;
 	int fastStep = 10;
 	int flags = ImGuiInputTextFlags_CharsDecimal;
@@ -106,6 +107,8 @@ void TransformComponent::DrawDebug()
 		UpdateMatrix();
 	}
 	ImGui::EndGroup();
+
+	ImGui::PopID();
 }
 
 void TransformComponent::UpdateMatrix()

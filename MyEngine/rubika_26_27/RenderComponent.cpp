@@ -54,6 +54,8 @@ void RenderComponent::Destroy()
 
 void RenderComponent::DrawDebug()
 {
+	ImGui::PushID(this);
+
 	ImGui::BeginGroup();
 	ImGui::TextColored(ImVec4(255, 0, 0, 255), "Render Component");
 
@@ -79,4 +81,6 @@ void RenderComponent::DrawDebug()
 	}
 
 	ImGui::EndGroup();
+
+	ImGui::PopID();
 }

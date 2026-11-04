@@ -6,6 +6,7 @@
 	#include <Imgui/imgui.h>
 	#include "TransformComponent.h"
 	#include "RenderComponent.h"
+	#include "DynamicColliderComponent.h"
 #endif
 
 void SceneMgr::Init()
@@ -186,6 +187,7 @@ void SceneMgr::DrawDebug()
 				ImGui::TableSetColumnIndex(2);
 				SceneMgr::DrawComponentButton<TransformComponent>(entity, std::string("Transform"));
 				SceneMgr::DrawComponentButton<RenderComponent>(entity, std::string("Render"));
+				SceneMgr::DrawComponentButton<DynamicColliderComponent>(entity, std::string("Dynamic Collider"));
 				ImGui::PopID();
 
 				ImGui::TableSetColumnIndex(3);

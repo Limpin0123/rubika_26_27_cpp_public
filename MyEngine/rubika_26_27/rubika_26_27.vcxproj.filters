@@ -111,6 +111,18 @@
     <ClCompile Include="Player.cpp">
       <Filter>Source Files\Entity &amp; Component</Filter>
     </ClCompile>
+    <ClCompile Include="DynamicColliderComponent.cpp">
+      <Filter>Source Files\Entity &amp; Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Obstacle.cpp">
+      <Filter>Source Files\Entity &amp; Component</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicMgr.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TagSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -225,6 +237,18 @@
       <Filter>Header Files\Entity &amp; Component</Filter>
     </ClInclude>
     <ClInclude Include="InputMgr.hxx">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DynamicColliderComponent.h">
+      <Filter>Header Files\Entity &amp; Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Obstacle.h">
+      <Filter>Header Files\Entity &amp; Component</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicMgr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TagSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

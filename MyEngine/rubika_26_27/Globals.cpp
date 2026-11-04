@@ -3,6 +3,7 @@
 #include <DebugMgr.h>
 #include <Logger.h>
 #include "SceneMgr.h"
+#include "PhysicMgr.h"
 #include "TextureMgr.h"
 #include "InputMgr.h"
 
@@ -13,6 +14,7 @@ Globals::Globals() : FrameCount(0)
 	DebugMgr = new ::DebugMgr();
 	Logger = new ::Logger();
 	SceneManager = new SceneMgr();
+	PhysicManager = new PhysicMgr(SceneManager);
 	TextureManager = new TextureMgr();
 	InputManager = new InputMgr();
 }
@@ -26,6 +28,7 @@ void Globals::Init()
 {
 	Logger->Init();
 	SceneManager->Init();
+	PhysicManager->Init();
 	TextureManager->Init();
 	InputManager->Init();
 }
@@ -34,6 +37,7 @@ void Globals::Shut()
 {
 	InputManager->Shut();
 	SceneManager->Shut();
+	PhysicManager->Shut();
 	TextureManager->Shut();
 	Logger->Shut();
 }

@@ -2,6 +2,7 @@
 #include <string>
 #include "IDrawableComponent.h"
 #include <SFML/Graphics.hpp>
+#include "TagSystem.h"
 
 class IComponent;
 class TransformComponent;

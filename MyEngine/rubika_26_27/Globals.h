@@ -7,6 +7,7 @@
 class DebugMgr;
 class Logger;
 class SceneMgr;
+class PhysicMgr;
 class TextureMgr;
 class InputMgr;
 
@@ -35,6 +36,7 @@ public:
 	DebugMgr* DebugMgr;
 	Logger* Logger;
 	SceneMgr* SceneManager;
+	PhysicMgr* PhysicManager;
 	TextureMgr* TextureManager;
 	InputMgr* InputManager;
 };

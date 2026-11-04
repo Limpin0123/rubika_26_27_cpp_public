@@ -11,18 +11,18 @@
 #include <inputMgr.h>
 #include "InputAction.h"
 #include "Player.h"
+#include "Obstacle.h"
 
 #include "Entity.h"
 #include "Scene.h"
 #include "SceneMgr.h"
 
-#include "TransformComponent.h"
-#include "RenderComponent.h"
-#include "StaticDrawable.h"
-#include "AnimatedDrawable.h"
+#include "PhysicMgr.h"
 
 int main()
 {
+#pragma region INITIALIZATION
+
     gData.Init();
 
     sf::RenderWindow window(sf::VideoMode({ 1080, 720 }), "SFML works!", sf::State::Windowed);
@@ -33,18 +33,22 @@ int main()
     sf::Clock clock;
     clock.restart();
 
-    /*### DEBUG AND TESTING ###*/
-    gData.SceneManager->AddAndLoadScene("Debug_Scene");
+#pragma region TEXTURE INITIALIZATION
     gData.TextureManager->LoadTexture("C:\\Github\\rubika_26_27_cpp_public\\MyEngine\\Ressources\\IsaacSprite.png");
-
+    gData.TextureManager->LoadTexture("C:\\Github\\rubika_26_27_cpp_public\\MyEngine\\Ressources\\Basement.png");
+#pragma endregion
+#pragma region SCENE INITIALIZATION
+    gData.SceneManager->AddAndLoadScene("Debug_Scene");
 
     Player* player = new Player();
     gData.SceneManager->activeScene->AddEntity(player);
-    RenderComponent* rc = player->AddComponent<RenderComponent>();
-    AnimatedDrawable* ad = rc->AddDrawable<AnimatedDrawable>();
-    ad->SetTextureAndAnimation("IsaacSprite.png", "Body_Left");
+    for (int i = 0; i < 5000; i++)
+    {
+        gData.SceneManager->activeScene->AddEntity(new Obstacle(sf::Vector2f(100, 100), "Obstacle" + std::to_string(i)));
+    }
+#pragma endregion
+#pragma region INPUT INITIALIZATION
 
-    //Input Action Register
     InputAction* iaUp = new InputAction("Up");
     InputAction* iaDown = new InputAction("Down");
     InputAction* iaLeft = new InputAction("Left");
@@ -56,11 +60,6 @@ int main()
     gData.InputManager->AddInputAction(iaRight);
 
     gData.InputManager->LoadBindings();
-
-    /*gData.InputManager->BindIAToKey(sf::Keyboard::Key::Up, iaUp->GetName());
-    gData.InputManager->BindIAToKey(sf::Keyboard::Key::Down, iaDown->GetName());
-    gData.InputManager->BindIAToKey(sf::Keyboard::Key::Left, iaLeft->GetName());
-    gData.InputManager->BindIAToKey(sf::Keyboard::Key::Right, iaRight->GetName());*/
 
     std::function<void(float)> UpLambda = [&player](float value) -> void
         {
@@ -86,7 +85,8 @@ int main()
     gData.InputManager->RegisterToIA(iaDown->GetName(), "Move Down", DownLambda, &player);
     gData.InputManager->RegisterToIA(iaLeft->GetName(), "Move Left", LeftLambda, &player);
     gData.InputManager->RegisterToIA(iaRight->GetName(), "Move Right", RightLambda, &player);
-    /*### ###*/
+#pragma endregion
+#pragma endregion
 
     while (window.isOpen())
     {
@@ -99,8 +99,8 @@ int main()
         float fDeltaTimeS = fDeltaTimeMS / 1000.f;
         sf::Time imGuiTime = clock.restart();
 
-        PROFILER_EVENT_BEGIN(PROFILER_COLOR_BLUE, "Event & Input");
-
+#pragma region INPUTS
+        PROFILER_EVENT_BEGIN(PROFILER_COLOR_RED, "Event & Input");
         while (const std::optional event = window.pollEvent())
         {
             if (event->is<sf::Event::Closed>())
@@ -112,34 +112,46 @@ int main()
             ImGui::SFML::ProcessEvent(window, event.value());
 #endif
         }
-
+        PROFILER_EVENT_BEGIN(PROFILER_COLOR_ORANGE, "Input Update");
+        gData.InputManager->Update(fDeltaTimeS);
         PROFILER_EVENT_END();
 
-        PROFILER_EVENT_BEGIN(PROFILER_COLOR_RED, "Update");
+        PROFILER_EVENT_END();
+#pragma endregion
+
+#pragma region UPDATE
+        PROFILER_EVENT_BEGIN(PROFILER_COLOR_DARK_BLUE, "Update");
 #ifdef _USE_IMGUI
         ImGui::SFML::Update(window, imGuiTime);
 #endif
-
-        // sample
-        //ImGui::ShowDemoWindow();
-        //Logger::DrawLogger();
-        gData.DebugMgr->Draw();
-
+        PROFILER_EVENT_BEGIN(PROFILER_COLOR_BLUE, "Scene Update");
+        gData.SceneManager->UpdateActiveScene(fDeltaTimeS);
         PROFILER_EVENT_END();
 
-        PROFILER_EVENT_BEGIN(PROFILER_COLOR_GREEN, "Draw");
+        PROFILER_EVENT_BEGIN(PROFILER_COLOR_BLUE, "Physic Update");
+        gData.PhysicManager->Update(fDeltaTimeS);
+        PROFILER_EVENT_END();
 
-        gData.InputManager->Update(fDeltaTimeS);
-        gData.SceneManager->UpdateActiveScene(fDeltaTimeS);
+        PROFILER_EVENT_END();
+#pragma endregion
 
+#pragma region DRAW
+        PROFILER_EVENT_BEGIN(PROFILER_COLOR_DARK_GREEN, "Draw");
         window.clear();
+
+        PROFILER_EVENT_BEGIN(PROFILER_COLOR_GREEN, "ImGUI Drawing");
+        gData.DebugMgr->Draw();
+        PROFILER_EVENT_END();
+        PROFILER_EVENT_BEGIN(PROFILER_COLOR_GREEN, "Scene Drawing");
         gData.SceneManager->DrawActiveScene(window);
+        PROFILER_EVENT_END();
 #ifdef _USE_IMGUI
         ImGui::SFML::Render(window);
 #endif
         window.display();
 
         PROFILER_EVENT_END();
+#pragma endregion
 
         PROFILER_EVENT_END();
     }

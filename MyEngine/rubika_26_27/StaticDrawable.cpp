@@ -33,7 +33,7 @@ void StaticDrawable::Update(float deltaTime)
 
 void StaticDrawable::Destroy()
 {
-	delete textureData;
+
 }
 
 void StaticDrawable::DrawDebug()

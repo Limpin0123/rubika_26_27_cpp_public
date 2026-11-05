@@ -24,9 +24,9 @@ Player::Player(std::string friendlyName) : Entity(strcmp(friendlyName.c_str(), "
 		};
 	dcc->SetOnCollisionCallback(collisionCallback);
 
-	dcc->collisionTag.AddTag(COLLIDER_TAG_DYNAMIC);
-	dcc->SetCollisionMode(CollisionFilterMode::AtLeastOneTag);
-	dcc->SetCollisionFilterMask(COLLIDER_TAG_DYNAMIC | COLLIDER_TAG_STATIC);
+	AddTag(COLLIDER_TAG_DYNAMIC);
+	//dcc->SetCollisionMode(CollisionFilterMode::AtLeastOneTag);
+	//dcc->SetCollisionFilterMask(COLLIDER_TAG_DYNAMIC);
 }
 
 void Player::MoveUp(float value)

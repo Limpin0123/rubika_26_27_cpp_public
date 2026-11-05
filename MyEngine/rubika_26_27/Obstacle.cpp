@@ -23,8 +23,4 @@ Obstacle::Obstacle(sf::Vector2f position, std::string friendlyName) : Entity(fri
 			return OnCollisionChoice::Ignore;
 		};
 	dcc->SetOnCollisionCallback(collisionCallback);
-
-	dcc->collisionTag.AddTag(COLLIDER_TAG_STATIC);
-	dcc->SetCollisionMode(CollisionFilterMode::ExactTags);
-	dcc->SetCollisionFilterMask(COLLIDER_TAG_DYNAMIC);
 }

@@ -118,11 +118,13 @@ void DynamicColliderComponent::OnCollision(sf::FloatRect collisionRect, DynamicC
 void DynamicColliderComponent::SetHitboxSize(sf::Vector2f size)
 {
 	HitboxSize = size;
+	Hitbox.size = sf::Vector2f(transform.GetScale().x * HitboxSize.x, transform.GetScale().y * HitboxSize.y);
 }
 
 void DynamicColliderComponent::SetHitboxOffset(sf::Vector2f offset)
 {
 	HitboxOffset = offset;
+	Hitbox.position = transform.GetWorldPosition() + HitboxOffset;
 }
 
 const sf::FloatRect DynamicColliderComponent::GetHitbox() const

@@ -15,36 +15,58 @@ void PhysicMgr::Init()
 { }
 void PhysicMgr::Update(float fDeltaTime)
 {
-	std::vector<Entity*> entities = SceneManager.activeScene->GetEntities();
-	for (int i = 0; i < entities.size() - 1; i++)
+	std::vector<DynamicColliderComponent*> dynamicColliders = SceneManager.activeScene->GetDynamicColliders();
+
+	for (auto i = dynamicColliders.begin(); i != dynamicColliders.end(); i++)
 	{
-		DynamicColliderComponent* dcc = entities.at(i)->GetComponent<DynamicColliderComponent>();
-		if (dcc == nullptr) continue;
+		DynamicColliderComponent* collider = *i;
+		CollisionFilterMode filterMode = collider->GetCollisionFilterMode();
+		TAG_TYPE filterMask = collider->GetCollisionFilterMask();
+		const TagSystem* tag = collider->GetEntity().GetTag();
 
-		for (int i2 = i + 1; i2 < entities.size(); i2++)
+		for (auto j = dynamicColliders.begin(); j != dynamicColliders.end(); j++)
 		{
-			DynamicColliderComponent* otherDcc = entities.at(i2)->GetComponent<DynamicColliderComponent>();
-			if (otherDcc == nullptr) continue;
-
+			DynamicColliderComponent* otherCollider = *j;
 			
-			std::optional<sf::FloatRect> collisionRect = dcc->GetHitbox().findIntersection(otherDcc->GetHitbox());
+			if (collider == otherCollider) continue;
 
+			std::optional<sf::FloatRect> collisionRect = collider->GetHitbox().findIntersection(otherCollider->GetHitbox());
 			if (collisionRect)
 			{
-				CollisionFilterMode myFilterMode = dcc->GetCollisionFilterMode();
-				TAG_TYPE myFilterMask = dcc->GetCollisionFilterMask();
+				const TagSystem* otherTag = otherCollider->GetEntity().GetTag();
 
-				CollisionFilterMode otherFilterMode = dcc->GetCollisionFilterMode();
-				TAG_TYPE otherFilterMask = dcc->GetCollisionFilterMask();
+				if ((filterMode == CollisionFilterMode::ExactTags && !otherTag->ContainsExactly(filterMask)) ||
+					(filterMode == CollisionFilterMode::AtLeastOneTag && !otherTag->ContainsAtLeastOne(filterMask))
+					) {
+					continue;
+				}
+				
+				collider->OnCollision(*collisionRect, otherCollider);
+				otherCollider->OnCollision(*collisionRect, collider);
+			}
 
+		}
 
-				if (myFilterMode == CollisionFilterMode::ExactTags && !otherDcc->collisionTag.ContainsExactly(myFilterMask)) continue;
-				else if (myFilterMode == CollisionFilterMode::AtLeastOneTag && !otherDcc->collisionTag.ContainsAtLeastOne(myFilterMask)) continue;
-				dcc->OnCollision(*collisionRect, otherDcc);
+		std::vector<DynamicColliderComponent*> staticColliders;
+		SceneManager.activeScene->GetstaticCollidersAtPosition(&staticColliders, collider);
 
-				if (myFilterMode == CollisionFilterMode::ExactTags && !otherDcc->collisionTag.ContainsExactly(myFilterMask)) continue;
-				else if (myFilterMode == CollisionFilterMode::AtLeastOneTag && !otherDcc->collisionTag.ContainsAtLeastOne(myFilterMask)) continue;
-				otherDcc->OnCollision(*collisionRect, dcc);
+		for (auto j = staticColliders.begin(); j != staticColliders.end(); j++)
+		{
+			DynamicColliderComponent* otherCollider = *j;
+
+			std::optional<sf::FloatRect> collisionRect = collider->GetHitbox().findIntersection(otherCollider->GetHitbox());
+			if (collisionRect)
+			{
+				const TagSystem* otherTag = otherCollider->GetEntity().GetTag();
+
+				if ((filterMode == CollisionFilterMode::ExactTags && !otherTag->ContainsExactly(filterMask)) ||
+					(filterMode == CollisionFilterMode::AtLeastOneTag && !otherTag->ContainsAtLeastOne(filterMask))
+					) {
+					continue;
+				}
+
+				collider->OnCollision(*collisionRect, otherCollider);
+				otherCollider->OnCollision(*collisionRect, collider);
 			}
 		}
 	}

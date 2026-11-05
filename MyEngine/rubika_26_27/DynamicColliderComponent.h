@@ -16,7 +16,7 @@ enum class OnCollisionChoice
 enum class CollisionFilterMode
 {
 	ExactTags,
-	AtLeastOneTag
+	AtLeastOneTag,
 };
 
 class DynamicColliderComponent : public IComponent
@@ -28,8 +28,6 @@ class DynamicColliderComponent : public IComponent
 public:
 	DynamicColliderComponent(Entity& entity);
 	~DynamicColliderComponent();
-
-	TagSystem collisionTag;
 
 	virtual void Start() override;
 	virtual void Update(float fDeltaTime) override;

@@ -23,6 +23,7 @@ int main()
 {
 #pragma region INITIALIZATION
 
+    std::srand(std::time({}));
     gData.Init();
 
     sf::RenderWindow window(sf::VideoMode({ 1080, 720 }), "SFML works!", sf::State::Windowed);
@@ -42,9 +43,11 @@ int main()
 
     Player* player = new Player();
     gData.SceneManager->activeScene->AddEntity(player);
-    for (int i = 0; i < 5000; i++)
+    for (int i = 0; i < 50; i++)
     {
-        gData.SceneManager->activeScene->AddEntity(new Obstacle(sf::Vector2f(100, 100), "Obstacle" + std::to_string(i)));
+        int randomValue = (std::rand() % 400)+ 50;
+        int randomValue2 = (std::rand() % 400) + 50;
+        gData.SceneManager->activeScene->AddEntity(new Obstacle(sf::Vector2f(randomValue, randomValue2), "Obstacle" + std::to_string(i)));
     }
 #pragma endregion
 #pragma region INPUT INITIALIZATION

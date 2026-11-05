@@ -39,6 +39,30 @@ void Entity::Destroy()
 	}
 }
 
+const TagSystem* Entity::GetTag() const
+{
+	return &Tags;
+}
+void Entity::AddTag(TAG_TYPE tag) {
+	Tags.AddTag(tag);
+	for (TagUpdateListener listener : OnTagChangeCallback)
+	{
+		listener.callback(&Tags);
+	}
+}
+void Entity::RemoveTag(TAG_TYPE tag) {
+	Tags.RemoveTag(tag);
+	for (TagUpdateListener listener : OnTagChangeCallback)
+	{
+		listener.callback(&Tags);
+	}
+}
+
+void Entity::RegisterToTagUpdate(std::function<void(const TagSystem*)> callback, void* owner)
+{
+	TagUpdateListener listener = TagUpdateListener(callback, owner);
+}
+
 void Entity::Draw(sf::RenderWindow& window) const
 {
 	for (IDrawableComponent* dc : DrawableComponents)

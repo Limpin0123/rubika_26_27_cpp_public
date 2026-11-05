@@ -3,6 +3,8 @@
 #include <string>
 #include <vector>
 #include "Entity.h"
+#include "GridCache.h"
+#include "DynamicColliderComponent.h"
 
 
 namespace sf
@@ -34,9 +36,15 @@ public:
 
 	int GetEntityAmount();
 	std::vector<Entity*>& GetEntities();
+	std::vector<DynamicColliderComponent*>& GetDynamicColliders();
+	void GetstaticCollidersAtPosition(std::vector<DynamicColliderComponent*>* colliders, DynamicColliderComponent* collider);
 
 private:
 	std::vector<Entity*> Entities;
 	
+	std::vector<DynamicColliderComponent*> dynamicColliders;
+	ColliderGridCache staticColliders;
+
+	bool TryRemoveCollider(std::vector<DynamicColliderComponent*> container, DynamicColliderComponent* collider);
 	void DestroyAllEntities();
 };
